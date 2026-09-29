@@ -1,0 +1,52 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+input CreateUlasanInput {
+  destinasiId: Int!
+  komentar: String!
+
+  """Nilai 1 sampai 5"""
+  rating: Int!
+}
+
+"""
+A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
+"""
+scalar DateTime
+
+type Destinasi {
+  deskripsi: String
+  fasilitas: [Fasilitas!]!
+  hargaTiket: Float!
+  id: Int!
+  kategori: String!
+  lokasi: String
+  nama: String!
+  ratingRata: Float!
+  ulasan: [Ulasan!]!
+}
+
+type Fasilitas {
+  destinasiId: Int!
+  id: Int!
+  namaFasilitas: String!
+}
+
+type Mutation {
+  tambahUlasan(input: CreateUlasanInput!): Ulasan!
+}
+
+type Query {
+  cariDestinasi(kategori: String): [Destinasi!]!
+  destinasi(id: Int!): Destinasi!
+}
+
+type Ulasan {
+  destinasiId: Int!
+  id: Int!
+  komentar: String!
+  rating: Int!
+  tanggal: DateTime!
+  userId: Int!
+}

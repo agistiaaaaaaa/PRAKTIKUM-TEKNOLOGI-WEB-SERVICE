@@ -1,0 +1,1004 @@
+{
+  "openapi": "3.0.0",
+  "paths": {
+    "/auth/register": {
+      "post": {
+        "operationId": "AuthController_register",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RegisterDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RegisterResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Data tidak valid",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Email sudah terdaftar",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        },
+        "summary": "Registrasi akun wisatawan baru",
+        "tags": [
+          "Auth"
+        ]
+      }
+    },
+    "/auth/login": {
+      "post": {
+        "operationId": "AuthController_login",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/LoginDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LoginResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Data tidak valid",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Email atau password salah",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        },
+        "summary": "Login dan menerima token JWT",
+        "tags": [
+          "Auth"
+        ]
+      }
+    },
+    "/destinasi": {
+      "get": {
+        "operationId": "DestinasiController_findAll",
+        "parameters": [
+          {
+            "name": "kategori",
+            "required": false,
+            "in": "query",
+            "description": "Filter berdasarkan nama kategori",
+            "schema": {
+              "example": "Pantai",
+              "type": "string"
+            }
+          },
+          {
+            "name": "page",
+            "required": false,
+            "in": "query",
+            "description": "Nomor halaman, dipakai bersama limit",
+            "schema": {
+              "minimum": 1,
+              "example": 1,
+              "type": "number"
+            }
+          },
+          {
+            "name": "limit",
+            "required": false,
+            "in": "query",
+            "description": "Jumlah data per halaman. Tanpa limit, seluruh data dikembalikan.",
+            "schema": {
+              "minimum": 1,
+              "maximum": 100,
+              "example": 10,
+              "type": "number"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Destinasi"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Query parameter tidak valid",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        },
+        "summary": "Menampilkan daftar destinasi, dapat difilter berdasarkan kategori",
+        "tags": [
+          "Destinasi"
+        ]
+      },
+      "post": {
+        "operationId": "DestinasiController_create",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateDestinasiDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Destinasi"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Data tidak valid",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Token tidak ada/tidak valid",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Bukan admin",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "Menambahkan destinasi baru (khusus admin)",
+        "tags": [
+          "Destinasi"
+        ]
+      }
+    },
+    "/destinasi/{id}": {
+      "get": {
+        "operationId": "DestinasiController_findOne",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "number"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Destinasi"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "id bukan angka",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        },
+        "summary": "Detail satu destinasi",
+        "tags": [
+          "Destinasi"
+        ]
+      },
+      "patch": {
+        "operationId": "DestinasiController_update",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "number"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateDestinasiDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Destinasi"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "Mengubah sebagian data destinasi (khusus admin)",
+        "tags": [
+          "Destinasi"
+        ]
+      },
+      "delete": {
+        "operationId": "DestinasiController_remove",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "number"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "example": {
+                    "message": "Destinasi berhasil dihapus"
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Destinasi sudah memiliki reservasi",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "Menghapus destinasi (khusus admin)",
+        "tags": [
+          "Destinasi"
+        ]
+      }
+    },
+    "/destinasi/{id}/ulasan": {
+      "get": {
+        "operationId": "DestinasiController_findUlasan",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "number"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Ulasan"
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        },
+        "summary": "Ulasan milik destinasi tertentu, terbaru lebih dulu",
+        "tags": [
+          "Destinasi"
+        ]
+      }
+    },
+    "/destinasi/{id}/fasilitas": {
+      "get": {
+        "operationId": "DestinasiController_findFasilitas",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "number"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Fasilitas"
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        },
+        "summary": "Fasilitas yang tersedia di destinasi tertentu",
+        "tags": [
+          "Destinasi"
+        ]
+      }
+    },
+    "/reservasi": {
+      "post": {
+        "operationId": "ReservasiController_create",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateReservasiDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Reservasi"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Data tidak valid / tanggal lampau",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Hanya role wisatawan",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Destinasi tidak ditemukan",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "Membuat reservasi tiket kunjungan (wisatawan login)",
+        "tags": [
+          "Reservasi"
+        ]
+      }
+    }
+  },
+  "info": {
+    "title": "WisataKu API",
+    "description": "API untuk platform informasi dan reservasi destinasi wisata (tahap monolitik modular)",
+    "version": "1.0",
+    "contact": {}
+  },
+  "tags": [],
+  "servers": [],
+  "components": {
+    "securitySchemes": {
+      "bearer": {
+        "scheme": "bearer",
+        "bearerFormat": "JWT",
+        "type": "http"
+      }
+    },
+    "schemas": {
+      "RegisterDto": {
+        "type": "object",
+        "properties": {
+          "nama": {
+            "type": "string",
+            "example": "Siti"
+          },
+          "email": {
+            "type": "string",
+            "example": "siti@example.com"
+          },
+          "password": {
+            "type": "string",
+            "example": "rahasia123",
+            "minLength": 8
+          }
+        },
+        "required": [
+          "nama",
+          "email",
+          "password"
+        ]
+      },
+      "RegisterResponse": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "number",
+            "example": 5
+          },
+          "nama": {
+            "type": "string",
+            "example": "Siti"
+          },
+          "email": {
+            "type": "string",
+            "example": "siti@example.com"
+          },
+          "role": {
+            "type": "string",
+            "example": "wisatawan"
+          }
+        },
+        "required": [
+          "id",
+          "nama",
+          "email",
+          "role"
+        ]
+      },
+      "ErrorResponse": {
+        "type": "object",
+        "properties": {
+          "statusCode": {
+            "type": "number",
+            "example": 404
+          },
+          "message": {
+            "oneOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              }
+            ],
+            "example": "Destinasi dengan id 999 tidak ditemukan"
+          },
+          "error": {
+            "type": "string",
+            "example": "Not Found"
+          }
+        },
+        "required": [
+          "statusCode",
+          "message",
+          "error"
+        ]
+      },
+      "LoginDto": {
+        "type": "object",
+        "properties": {
+          "email": {
+            "type": "string",
+            "example": "siti@example.com"
+          },
+          "password": {
+            "type": "string",
+            "example": "rahasia123"
+          }
+        },
+        "required": [
+          "email",
+          "password"
+        ]
+      },
+      "LoginResponse": {
+        "type": "object",
+        "properties": {
+          "access_token": {
+            "type": "string",
+            "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+          },
+          "token_type": {
+            "type": "string",
+            "example": "Bearer"
+          }
+        },
+        "required": [
+          "access_token",
+          "token_type"
+        ]
+      },
+      "Destinasi": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "number",
+            "example": 1
+          },
+          "nama": {
+            "type": "string",
+            "example": "Pantai Kuta Mandalika"
+          },
+          "kategori": {
+            "type": "string",
+            "example": "Pantai"
+          },
+          "lokasi": {
+            "type": "string",
+            "example": "Kuta, Lombok Tengah",
+            "nullable": true
+          },
+          "deskripsi": {
+            "type": "string",
+            "example": "Pantai berpasir putih di kawasan Mandalika.",
+            "nullable": true
+          },
+          "hargaTiket": {
+            "type": "number",
+            "example": 15000
+          },
+          "ratingRata": {
+            "type": "number",
+            "example": 4.5
+          },
+          "createdAt": {
+            "format": "date-time",
+            "type": "string",
+            "example": "2026-09-29T10:00:00.000Z"
+          }
+        },
+        "required": [
+          "id",
+          "nama",
+          "kategori",
+          "lokasi",
+          "deskripsi",
+          "hargaTiket",
+          "ratingRata",
+          "createdAt"
+        ]
+      },
+      "Ulasan": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "number",
+            "example": 1
+          },
+          "destinasiId": {
+            "type": "number",
+            "example": 1
+          },
+          "userId": {
+            "type": "number",
+            "example": 2
+          },
+          "rating": {
+            "type": "number",
+            "example": 5,
+            "minimum": 1,
+            "maximum": 5
+          },
+          "komentar": {
+            "type": "string",
+            "example": "Pemandangan luar biasa!"
+          },
+          "tanggal": {
+            "format": "date-time",
+            "type": "string",
+            "example": "2026-09-29T10:00:00.000Z"
+          }
+        },
+        "required": [
+          "id",
+          "destinasiId",
+          "userId",
+          "rating",
+          "komentar",
+          "tanggal"
+        ]
+      },
+      "Fasilitas": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "number",
+            "example": 1
+          },
+          "destinasiId": {
+            "type": "number",
+            "example": 1
+          },
+          "namaFasilitas": {
+            "type": "string",
+            "example": "Area parkir"
+          }
+        },
+        "required": [
+          "id",
+          "destinasiId",
+          "namaFasilitas"
+        ]
+      },
+      "CreateDestinasiDto": {
+        "type": "object",
+        "properties": {
+          "nama": {
+            "type": "string",
+            "example": "Pantai Kuta Mandalika",
+            "maxLength": 150
+          },
+          "kategori": {
+            "type": "string",
+            "example": "Pantai",
+            "description": "Nama kategori; dibuat otomatis jika belum ada"
+          },
+          "lokasi": {
+            "type": "string",
+            "example": "Kuta, Lombok Tengah",
+            "maxLength": 150
+          },
+          "deskripsi": {
+            "type": "string",
+            "example": "Pantai berpasir putih di kawasan Mandalika."
+          },
+          "hargaTiket": {
+            "type": "number",
+            "example": 15000,
+            "minimum": 0
+          }
+        },
+        "required": [
+          "nama",
+          "kategori",
+          "hargaTiket"
+        ]
+      },
+      "UpdateDestinasiDto": {
+        "type": "object",
+        "properties": {
+          "nama": {
+            "type": "string",
+            "example": "Pantai Kuta Mandalika",
+            "maxLength": 150
+          },
+          "kategori": {
+            "type": "string",
+            "example": "Pantai",
+            "description": "Nama kategori; dibuat otomatis jika belum ada"
+          },
+          "lokasi": {
+            "type": "string",
+            "example": "Kuta, Lombok Tengah",
+            "maxLength": 150
+          },
+          "deskripsi": {
+            "type": "string",
+            "example": "Pantai berpasir putih di kawasan Mandalika."
+          },
+          "hargaTiket": {
+            "type": "number",
+            "example": 15000,
+            "minimum": 0
+          }
+        }
+      },
+      "CreateReservasiDto": {
+        "type": "object",
+        "properties": {
+          "destinasiId": {
+            "type": "number",
+            "example": 1
+          },
+          "tanggalKunjungan": {
+            "type": "string",
+            "example": "2026-12-25",
+            "description": "Format YYYY-MM-DD, tidak boleh sebelum hari ini"
+          },
+          "jumlahTiket": {
+            "type": "number",
+            "example": 2,
+            "minimum": 1,
+            "maximum": 20
+          }
+        },
+        "required": [
+          "destinasiId",
+          "tanggalKunjungan",
+          "jumlahTiket"
+        ]
+      },
+      "Reservasi": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "number",
+            "example": 1
+          },
+          "userId": {
+            "type": "number",
+            "example": 2
+          },
+          "destinasiId": {
+            "type": "number",
+            "example": 1
+          },
+          "tanggalKunjungan": {
+            "type": "string",
+            "example": "2026-12-25",
+            "format": "date"
+          },
+          "jumlahTiket": {
+            "type": "number",
+            "example": 2
+          },
+          "status": {
+            "type": "string",
+            "example": "dipesan"
+          },
+          "totalHarga": {
+            "type": "number",
+            "example": 30000,
+            "description": "hargaTiket x jumlahTiket, dihitung server"
+          },
+          "createdAt": {
+            "format": "date-time",
+            "type": "string",
+            "example": "2026-09-29T10:00:00.000Z"
+          }
+        },
+        "required": [
+          "id",
+          "userId",
+          "destinasiId",
+          "tanggalKunjungan",
+          "jumlahTiket",
+          "status",
+          "totalHarga",
+          "createdAt"
+        ]
+      }
+    }
+  }
+}

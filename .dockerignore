@@ -1,0 +1,12 @@
+node_modules
+dist
+coverage
+.env
+.env.*
+!.env.example
+*.log
+docs
+test
+**/*.spec.ts
+Dockerfile
+docker-compose.yml

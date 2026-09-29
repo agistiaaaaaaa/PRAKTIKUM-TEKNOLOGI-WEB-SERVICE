@@ -1,0 +1,31 @@
+{
+  "compilerOptions": {
+    "module": "commonjs",
+    "target": "ES2023",
+    "declaration": false,
+    "removeComments": true,
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "allowSyntheticDefaultImports": true,
+    "esModuleInterop": true,
+    "sourceMap": true,
+    "outDir": "./dist",
+    "baseUrl": "./",
+    "skipLibCheck": true,
+    "strictNullChecks": true,
+    "noImplicitAny": true,
+    "strictBindCallApply": true,
+    "noFallthroughCasesInSwitch": true,
+    "noUnusedLocals": true,
+    "forceConsistentCasingInFileNames": true,
+    "paths": {
+      "@wisataku/common": ["libs/common/src"],
+      "@wisataku/common/*": ["libs/common/src/*"],
+      "@wisataku/auth": ["libs/auth/src"],
+      "@wisataku/auth/*": ["libs/auth/src/*"],
+      "@wisataku/domain": ["libs/domain/src"],
+      "@wisataku/domain/*": ["libs/domain/src/*"]
+    }
+  },
+  "exclude": ["node_modules", "dist", "coverage"]
+}

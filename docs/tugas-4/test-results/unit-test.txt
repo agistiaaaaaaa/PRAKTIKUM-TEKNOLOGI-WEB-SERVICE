@@ -1,0 +1,64 @@
+# npm run test -- --verbose  (2026-09-30 01:42, Node v24.15.0)
+PASS libs/common/src/rpc/http-to-rpc-exception.filter.spec.ts
+  HttpToRpcExceptionFilter
+    √ meneruskan status dan pesan NotFoundException (20 ms)
+    √ meneruskan daftar pesan validasi (3 ms)
+    √ menyembunyikan detail error yang tidak dikenal sebagai 500 (4 ms)
+
+PASS libs/auth/src/jwt.strategy.spec.ts
+  JwtStrategy
+    √ memetakan payload { sub, role } menjadi request.user (17 ms)
+    √ gagal dibuat jika JWT_SECRET tidak diisi (24 ms)
+
+PASS libs/auth/src/guards/roles.guard.spec.ts
+  RolesGuard
+    √ mengizinkan handler tanpa @Roles (36 ms)
+    √ mengizinkan user dengan role yang sesuai (1 ms)
+    √ menolak wisatawan pada endpoint admin dengan 403 (25 ms)
+    √ menolak request tanpa user (4 ms)
+
+PASS libs/domain/src/destinasi/destinasi.service.spec.ts (5.239 s)
+  DestinasiService
+    √ findAll memfilter berdasarkan nama kategori dan meratakan field kategori (19 ms)
+    √ findAll menghitung skip dari page dan limit (1 ms)
+    √ findOne melempar NotFoundException jika id tidak ada (27 ms)
+    √ create menghubungkan kategori berdasarkan nama (dibuat jika belum ada) (2 ms)
+    √ update melempar NotFoundException tanpa menyentuh database jika id tidak ada (3 ms)
+    √ remove mengubah pelanggaran foreign key reservasi menjadi 409 (3 ms)
+
+PASS libs/domain/src/reservasi/reservasi.service.spec.ts (5.252 s)
+  ReservasiService
+    √ menghitung totalHarga dari harga tiket di database (14 ms)
+    √ menolak tanggal kunjungan yang sudah lewat (30 ms)
+    √ menolak destinasi yang tidak ada (2 ms)
+
+PASS gateway/src/clients/rpc.spec.ts (5.278 s)
+  rpc client helper
+    √ toHttpException mempertahankan status dari microservice (14 ms)
+    √ toHttpException mengubah error koneksi menjadi 503 (2 ms)
+    √ sendRpc mengembalikan balasan pertama (6 ms)
+    √ sendRpc melempar 404 jika microservice membalas error 404 (3 ms)
+    √ sendRpc melempar 503 jika microservice tidak membalas sampai timeout (60 ms)
+
+PASS libs/auth/src/auth.service.spec.ts (5.593 s)
+  AuthService
+    register
+      √ menyimpan hash bcrypt, bukan password asli, dengan role wisatawan (244 ms)
+      √ menolak registrasi jika email sudah terdaftar (20 ms)
+    login
+      √ mengembalikan JWT berisi sub dan role jika kredensial benar (19 ms)
+      √ menolak password yang salah (8 ms)
+      √ menolak email yang tidak terdaftar dengan pesan yang sama (5 ms)
+
+PASS gateway/src/destinasi/v2/destinasi-v2.spec.ts (6.101 s)
+  Destinasi v1 vs v2
+    √ v1 menampilkan hargaTiket dan tidak menampilkan hargaAnak (12 ms)
+    √ v2 mengganti hargaTiket dengan hargaDewasa dan hargaAnak (3 ms)
+    √ input v2 hargaDewasa disimpan ke kolom hargaTiket (1 ms)
+    √ PATCH v2 tanpa hargaDewasa tidak mengubah hargaTiket (1 ms)
+
+Test Suites: 8 passed, 8 total
+Tests:       32 passed, 32 total
+Snapshots:   0 total
+Time:        7.569 s
+Ran all test suites.

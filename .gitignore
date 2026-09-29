@@ -1,0 +1,25 @@
+# dependencies
+node_modules/
+
+# build
+dist/
+coverage/
+*.tsbuildinfo
+
+# environment - jangan pernah commit file ini
+.env
+.env.*
+!.env.example
+
+# log & sementara
+*.log
+logs/
+tmp/
+.wisataku-local/
+
+# editor / OS
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+

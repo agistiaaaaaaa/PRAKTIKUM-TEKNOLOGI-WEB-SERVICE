@@ -1,0 +1,16 @@
+{
+  "moduleFileExtensions": ["js", "json", "ts"],
+  "rootDir": "..",
+  "roots": ["<rootDir>/test"],
+  "testEnvironment": "node",
+  "testRegex": ".e2e-spec.ts$",
+  "testTimeout": 30000,
+  "transform": {
+    "^.+\\.ts$": ["ts-jest", { "tsconfig": "<rootDir>/tsconfig.spec.json" }]
+  },
+  "moduleNameMapper": {
+    "^@wisataku/common(|/.*)$": "<rootDir>/libs/common/src$1",
+    "^@wisataku/auth(|/.*)$": "<rootDir>/libs/auth/src$1",
+    "^@wisataku/domain(|/.*)$": "<rootDir>/libs/domain/src$1"
+  }
+}

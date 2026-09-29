@@ -1,0 +1,8 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    // Jest hanya men-transpile; pemeriksaan tipe dilakukan oleh `npm run typecheck`.
+    // Tanpa ini setiap worker Jest menjalankan type-check penuh dan kehabisan memori.
+    "isolatedModules": true
+  }
+}

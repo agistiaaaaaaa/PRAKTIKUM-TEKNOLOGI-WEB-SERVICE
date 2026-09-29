@@ -1,0 +1,74 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model Kategori {
+  id           Int         @id @default(autoincrement())
+  namaKategori String      @unique @db.VarChar(50)
+  destinasi    Destinasi[]
+}
+
+model Destinasi {
+  id         Int         @id @default(autoincrement())
+  nama       String      @db.VarChar(150)
+  kategori   Kategori    @relation(fields: [kategoriId], references: [id])
+  kategoriId Int
+  lokasi     String?     @db.VarChar(150)
+  deskripsi  String?     @db.Text
+  hargaTiket Float // harga dewasa; di API v2 disajikan sebagai hargaDewasa
+  hargaAnak  Float? // ditambahkan untuk API v2 (Bab 7)
+  ratingRata Float       @default(0)
+  ulasan     Ulasan[]
+  fasilitas  Fasilitas[]
+  reservasi  Reservasi[]
+  createdAt  DateTime    @default(now())
+}
+
+model Ulasan {
+  id          Int       @id @default(autoincrement())
+  destinasi   Destinasi @relation(fields: [destinasiId], references: [id], onDelete: Cascade)
+  destinasiId Int
+  user        User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId      Int
+  rating      Int
+  komentar    String    @db.Text
+  tanggal     DateTime  @default(now())
+
+  @@index([destinasiId, tanggal])
+}
+
+model Fasilitas {
+  id            Int       @id @default(autoincrement())
+  destinasi     Destinasi @relation(fields: [destinasiId], references: [id], onDelete: Cascade)
+  destinasiId   Int
+  namaFasilitas String    @db.VarChar(100)
+}
+
+model User {
+  id           Int         @id @default(autoincrement())
+  nama         String      @db.VarChar(100)
+  email        String      @unique @db.VarChar(150)
+  passwordHash String      @db.VarChar(100)
+  role         String      @default("wisatawan") @db.VarChar(20) // "wisatawan" atau "admin"
+  ulasan       Ulasan[]
+  reservasi    Reservasi[]
+  createdAt    DateTime    @default(now())
+}
+
+model Reservasi {
+  id               Int       @id @default(autoincrement())
+  user             User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId           Int
+  destinasi        Destinasi @relation(fields: [destinasiId], references: [id], onDelete: Restrict)
+  destinasiId      Int
+  tanggalKunjungan DateTime  @db.Date
+  jumlahTiket      Int
+  status           String    @default("dipesan") @db.VarChar(20)
+  totalHarga       Float
+  createdAt        DateTime  @default(now())
+}
