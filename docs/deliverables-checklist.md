@@ -1,72 +1,62 @@
 # Checklist Deliverables
 
-Centang hanya jika file ada **dan** isinya sudah diperiksa. Status verifikasi teknis ada di `docs/final-audit.md`.
+Dicentang hanya bila luaran sudah ada **dan** sudah diperiksa. Bukti per butir ada di `docs/final-audit.md`.
+
+## TUGAS 1 — Analisis Arsitektur
+
+- [x] Laporan PDF — `docs/tugas-1/laporan-tugas-1.pdf` (isi nama/NIM di `docs/identitas.json`, lalu `npm run docs:pdf`)
+- [x] Diagram draw.io — `docs/tugas-1/arsitektur-wisataku.drawio` (+ PNG)
+
+## TUGAS 2 — Desain Endpoint & OpenAPI
+
+- [x] OpenAPI JSON — `docs/tugas-2/openapi.json`
+- [x] OpenAPI YAML — `docs/tugas-2/openapi.yaml`
+- [ ] Swagger evidence — verifikasi HTTP ada di `swagger-verification.md`; **screenshot Swagger UI belum diambil**
+
+## TUGAS 3 — REST & GraphQL
+
+- [x] REST implementation
+- [x] GraphQL implementation
+- [x] API test evidence (log) — `docs/tugas-4/test-results/e2e-test.txt`
+- [ ] Screenshot Postman / Apollo Sandbox — belum diambil
+- [x] Laporan — `docs/tugas-3/laporan-tugas-3.pdf`
+
+## TUGAS 4 — Keamanan & Pengujian
+
+- [x] JWT
+- [x] RBAC
+- [x] Unit tests — 32/32
+- [x] E2E tests — 41/41
+- [ ] k6 — skrip siap (`load-test.js`), **belum dijalankan: k6 belum terpasang**
+- [x] Testing report — `docs/tugas-4/laporan-keamanan-testing.pdf` (bagian k6 perlu diperbarui setelah dijalankan)
+
+## TUGAS 5 — Integrasi & Deployment
+
+- [x] Microservices
+- [x] API Gateway
+- [x] Dockerfile (3 layanan) — dibuat, belum di-build
+- [x] docker-compose.yml — dibuat, YAML valid
+- [ ] Docker runtime verification — **BLOCKED: Docker Desktop belum terpasang**
+- [ ] Deployment / URL layanan API — **BLOCKED: belum ada VPS**
+- [x] Laporan — `docs/tugas-5/laporan-tugas-5.pdf`, `deployment-guide.md`, `evaluasi/`
+
+## TUGAS 6 — Proyek Akhir
+
+- [x] Final source code — repository Git lokal
+- [x] Final PDF — `docs/tugas-6/laporan-final.pdf`
+- [ ] GitHub — **BLOCKED: URL remote belum diberikan**
+- [ ] Deployed API — **BLOCKED: belum ada VPS**
+- [ ] Slides — belum dibuat
+- [ ] Video — belum dibuat
 
 ## Umum
 
-- [ ] `README.md`
-- [ ] `CHANGELOG.md`
-- [x] `.env.example` (tanpa secret asli)
-- [x] `.gitignore` (mengecualikan `.env`, `node_modules`, `dist`)
-- [x] `docs/project-analysis.md`
-- [ ] `docs/final-audit.md`
-
-## Tugas 1 — Analisis Arsitektur
-
-- [ ] `docs/tugas-1/laporan-tugas-1.md`
-- [ ] `docs/tugas-1/laporan-tugas-1.pdf`
-- [ ] `docs/tugas-1/arsitektur-wisataku.drawio`
-- [ ] `docs/tugas-1/architecture-overview.png`
-
-## Tugas 2 — Desain Endpoint & OpenAPI
-
-- [ ] `docs/tugas-2/api-design.md`
-- [x] `docs/tugas-2/openapi.json` (diekspor dari kode)
-- [x] `docs/tugas-2/openapi.yaml`
-- [ ] `docs/tugas-2/swagger-verification.md`
-- [ ] Screenshot Swagger UI dari server yang berjalan
-
-## Tugas 3 — REST & GraphQL
-
-- [x] `prisma/schema.prisma` + folder `prisma/migrations/`
-- [x] `prisma/seed.ts`
-- [x] `wisataku-api/src/` (destinasi, ulasan, fasilitas, reservasi, app.module, main)
-- [x] `libs/common` (PrismaModule), `libs/domain` (service, DTO, entity)
-- [ ] `docs/tugas-3/laporan-tugas-3.md` + `.pdf` (termasuk perbandingan jumlah request REST vs GraphQL)
-- [ ] Bukti uji REST & GraphQL (log request/response)
-- [ ] Screenshot Postman / Apollo Sandbox
-
-## Tugas 4 — Keamanan & Pengujian
-
-- [x] `libs/auth/` (AuthService, JwtStrategy, JwtAuthGuard, GqlAuthGuard, RolesGuard, `@Roles`)
-- [x] Unit test (`*.spec.ts`)
-- [x] `test/destinasi.e2e-spec.ts`
-- [x] `load-test.js` (root)
-- [ ] `docs/tugas-4/test-results/` (output asli unit, e2e, k6) — unit & e2e ada; k6 menunggu k6 terpasang
-- [ ] `docs/tugas-4/laporan-keamanan-testing.md` + `.pdf`
-
-## Tugas 5 — Microservices & Deployment
-
-- [x] `gateway/`, `service-destinasi/`, `service-reservasi/`
-- [x] `gateway/Dockerfile`, `service-destinasi/Dockerfile`, `service-reservasi/Dockerfile`
-- [x] `docker-compose.yml`
-- [x] Konfigurasi via `@nestjs/config`
-- [x] Versioning `/v1` & `/v2`
-- [ ] `docs/tugas-5/laporan-tugas-5.md` + `.pdf` (termasuk evaluasi `npm audit`)
-- [ ] `docs/tugas-5/deployment-guide.md`
-- [ ] URL layanan API aktif (butuh VPS)
-
-## Tugas 6 — Proyek Akhir
-
-- [x] `test/wisataku-flow.e2e-spec.ts`
-- [ ] `docs/tugas-6/dokumentasi-teknis-wisataku.md` + `.pdf`
-- [ ] Slide presentasi (`.pptx` + `.pdf`)
-- [ ] Naskah demo video
-- [ ] Link repository GitHub
-- [ ] URL API ter-deploy
-- [ ] Link video YouTube
+- [x] `README.md`
+- [x] `CHANGELOG.md`
+- [x] `.env.example` tanpa secret asli
+- [x] `.gitignore` mengecualikan `.env`, `node_modules`, `dist`, log
+- [x] `docs/final-audit.md`
 
 ## Pengumpulan
 
-- [ ] Folder `submission/` tanpa `node_modules`, `.env`, `dist`, log
-- [ ] Google Form diisi per tugas (link GitHub, PDF, nomor tugas)
+- [ ] Google Form diisi per tugas (link GitHub, PDF, nomor tugas) — dilakukan manual setelah link GitHub tersedia

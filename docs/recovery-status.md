@@ -103,6 +103,13 @@ Keputusan Docker yang berbeda dari contoh modul (beserta alasannya):
 
 Data smoke test sesi recovery (user `recovery*@example.com`, ulasan dan reservasinya) sudah dihapus dan `ratingRata` destinasi terkait dihitung ulang. Data smoke test dari sesi sebelum crash (`smoke*`, `gw*`, `gq*`, `dn*`, `rc*` @example.com) dibiarkan.
 
+## Finalisasi (2026-09-30)
+
+- Git diinisialisasi; commit `f501da5` "chore: checkpoint verified WisataKu implementation".
+- README, CHANGELOG, `docs/final-audit.md`, dan laporan Tugas 1–6 (Markdown + PDF) dibuat. PDF dibangun dengan `npm run docs:pdf`.
+- MariaDB lokal (port 3307) dihentikan oleh sistem karena memori rendah. Jalankan ulang sebelum `npm run test:e2e`.
+- Gateway diverifikasi manual di port 3100 karena port 3000 dipakai proses `wisataku-api` lain yang bukan dijalankan sesi ini.
+
 ## Next Action
 
 1. Tugas 4: pasang k6 (`winget install k6 --source winget`), jalankan `k6 run load-test.js` terhadap monolit lalu gateway, simpan output ke `docs/tugas-4/test-results/`.

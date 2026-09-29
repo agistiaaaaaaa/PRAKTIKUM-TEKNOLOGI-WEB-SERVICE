@@ -1,0 +1,103 @@
+<mxfile host="app.diagrams.net" agent="WisataKu" version="24.7.17">
+  <diagram id="arsitektur-akhir" name="Arsitektur Akhir (Microservices)">
+    <mxGraphModel dx="1000" dy="800" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="700" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="mobile" value="&lt;b&gt;Aplikasi Mobile&lt;/b&gt;&lt;br&gt;Wisatawan" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="1">
+          <mxGeometry x="140" y="30" width="180" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="admin" value="&lt;b&gt;Aplikasi Web Admin&lt;/b&gt;&lt;br&gt;Admin" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="1">
+          <mxGeometry x="500" y="30" width="180" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="internal" value="Jaringan internal (Docker network) — tidak dapat diakses langsung oleh client" style="rounded=1;whiteSpace=wrap;html=1;dashed=1;fillColor=none;strokeColor=#999999;verticalAlign=bottom;fontColor=#666666;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="60" y="310" width="700" height="330" as="geometry" />
+        </mxCell>
+        <mxCell id="gateway" value="&lt;b&gt;API Gateway (NestJS) — :3000&lt;/b&gt;&lt;br&gt;Autentikasi JWT · RBAC · Routing · Agregasi · Versioning /v1 /v2&lt;br&gt;REST · GraphQL (/graphql) · Swagger (/api/docs)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;" vertex="1" parent="1">
+          <mxGeometry x="190" y="170" width="440" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="svcDest" value="&lt;b&gt;service-destinasi&lt;/b&gt; — TCP :5001&lt;br&gt;Destinasi · Kategori · Ulasan · Fasilitas" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="1">
+          <mxGeometry x="100" y="350" width="260" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="svcRes" value="&lt;b&gt;service-reservasi&lt;/b&gt; — TCP :5002&lt;br&gt;Reservasi" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="1">
+          <mxGeometry x="460" y="350" width="260" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="db" value="&lt;b&gt;MariaDB&lt;/b&gt;&lt;br&gt;wisataku_db" style="shape=cylinder3;whiteSpace=wrap;html=1;boundedLbl=1;backgroundOutline=1;size=12;fillColor=#f8cecc;strokeColor=#b85450;" vertex="1" parent="1">
+          <mxGeometry x="340" y="490" width="140" height="90" as="geometry" />
+        </mxCell>
+        <mxCell id="e1" value="HTTP · REST / GraphQL&lt;br&gt;Bearer JWT" style="endArrow=classic;html=1;fontSize=10;" edge="1" parent="1" source="mobile" target="gateway">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e2" value="HTTP · REST&lt;br&gt;Bearer JWT (admin)" style="endArrow=classic;html=1;fontSize=10;" edge="1" parent="1" source="admin" target="gateway">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e3" value="TCP · ClientProxy&lt;br&gt;destinasi.* ulasan.* fasilitas.*" style="endArrow=classic;html=1;fontSize=10;" edge="1" parent="1" source="gateway" target="svcDest">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e4" value="TCP · ClientProxy&lt;br&gt;reservasi.create" style="endArrow=classic;html=1;fontSize=10;" edge="1" parent="1" source="gateway" target="svcRes">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e5" value="Prisma" style="endArrow=classic;html=1;fontSize=10;" edge="1" parent="1" source="svcDest" target="db">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e6" value="Prisma" style="endArrow=classic;html=1;fontSize=10;" edge="1" parent="1" source="svcRes" target="db">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e7" value="Prisma (tabel User: register/login)" style="endArrow=classic;html=1;dashed=1;fontSize=10;edgeStyle=orthogonalEdgeStyle;" edge="1" parent="1" source="gateway" target="db">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="410" y="460" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="tahap-awal" name="Tahap Awal (Monolitik Modular)">
+    <mxGraphModel dx="1000" dy="800" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="600" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="m-mobile" value="&lt;b&gt;Aplikasi Mobile&lt;/b&gt;&lt;br&gt;Wisatawan" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="1">
+          <mxGeometry x="140" y="30" width="180" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="m-admin" value="&lt;b&gt;Aplikasi Web Admin&lt;/b&gt;&lt;br&gt;Admin" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="1">
+          <mxGeometry x="500" y="30" width="180" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="m-api" value="&lt;b&gt;wisataku-api (NestJS, satu proses) — :3000&lt;/b&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;verticalAlign=top;" vertex="1" parent="1">
+          <mxGeometry x="100" y="160" width="620" height="200" as="geometry" />
+        </mxCell>
+        <mxCell id="m-auth" value="AuthModule&lt;br&gt;JWT · RBAC" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;" vertex="1" parent="1">
+          <mxGeometry x="120" y="200" width="110" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="m-dest" value="DestinasiModule&lt;br&gt;REST + GraphQL" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;" vertex="1" parent="1">
+          <mxGeometry x="240" y="200" width="110" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="m-ulasan" value="UlasanModule" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;" vertex="1" parent="1">
+          <mxGeometry x="360" y="200" width="110" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="m-fas" value="FasilitasModule" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;" vertex="1" parent="1">
+          <mxGeometry x="480" y="200" width="110" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="m-res" value="ReservasiModule" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;" vertex="1" parent="1">
+          <mxGeometry x="600" y="200" width="110" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="m-prisma" value="PrismaModule (global)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;" vertex="1" parent="1">
+          <mxGeometry x="300" y="290" width="220" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="m-db" value="&lt;b&gt;MariaDB&lt;/b&gt;&lt;br&gt;wisataku_db" style="shape=cylinder3;whiteSpace=wrap;html=1;boundedLbl=1;backgroundOutline=1;size=12;fillColor=#f8cecc;strokeColor=#b85450;" vertex="1" parent="1">
+          <mxGeometry x="340" y="420" width="140" height="90" as="geometry" />
+        </mxCell>
+        <mxCell id="m-e1" value="HTTP · REST / GraphQL" style="endArrow=classic;html=1;fontSize=10;" edge="1" parent="1" source="m-mobile" target="m-api">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="m-e2" value="HTTP · REST" style="endArrow=classic;html=1;fontSize=10;" edge="1" parent="1" source="m-admin" target="m-api">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="m-e3" value="Prisma Client" style="endArrow=classic;html=1;fontSize=10;" edge="1" parent="1" source="m-prisma" target="m-db">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

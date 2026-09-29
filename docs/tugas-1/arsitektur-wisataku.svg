@@ -1,0 +1,67 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 820 660" width="820" height="660" font-family="Arial, Helvetica, sans-serif" font-size="13">
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#333"/>
+    </marker>
+  </defs>
+  <rect width="820" height="660" fill="#ffffff"/>
+  <text x="410" y="20" text-anchor="middle" font-size="15" font-weight="bold">Arsitektur Akhir WisataKu</text>
+
+  <!-- Client -->
+  <rect x="140" y="40" width="180" height="56" rx="10" fill="#dae8fc" stroke="#6c8ebf"/>
+  <text x="230" y="64" text-anchor="middle" font-weight="bold">Aplikasi Mobile</text>
+  <text x="230" y="82" text-anchor="middle">Wisatawan</text>
+  <rect x="500" y="40" width="180" height="56" rx="10" fill="#dae8fc" stroke="#6c8ebf"/>
+  <text x="590" y="64" text-anchor="middle" font-weight="bold">Aplikasi Web Admin</text>
+  <text x="590" y="82" text-anchor="middle">Admin</text>
+
+  <!-- Client -> Gateway -->
+  <line x1="230" y1="96" x2="330" y2="168" stroke="#333" marker-end="url(#arrow)"/>
+  <line x1="590" y1="96" x2="490" y2="168" stroke="#333" marker-end="url(#arrow)"/>
+  <text x="272" y="138" text-anchor="end" font-size="11" fill="#333">HTTP · REST / GraphQL</text>
+  <text x="272" y="152" text-anchor="end" font-size="11" fill="#333">Bearer JWT</text>
+  <text x="545" y="138" font-size="11" fill="#333">HTTP · REST</text>
+  <text x="545" y="152" font-size="11" fill="#333">Bearer JWT (admin)</text>
+
+  <!-- Gateway -->
+  <rect x="190" y="170" width="440" height="80" rx="10" fill="#fff2cc" stroke="#d6b656"/>
+  <text x="410" y="195" text-anchor="middle" font-weight="bold">API Gateway (NestJS) — :3000</text>
+  <text x="410" y="215" text-anchor="middle" font-size="12">Autentikasi JWT · RBAC · Routing · Agregasi · Versioning /v1 /v2</text>
+  <text x="410" y="233" text-anchor="middle" font-size="12">REST · GraphQL (/graphql) · Swagger (/api/docs)</text>
+
+  <!-- Internal network -->
+  <rect x="60" y="300" width="700" height="345" rx="12" fill="none" stroke="#999" stroke-dasharray="6 4"/>
+  <text x="410" y="636" text-anchor="middle" font-size="11" fill="#666">Jaringan internal (Docker network) — tidak dapat diakses langsung oleh client</text>
+
+  <!-- Gateway -> services -->
+  <line x1="300" y1="250" x2="240" y2="346" stroke="#333" marker-end="url(#arrow)"/>
+  <line x1="520" y1="250" x2="580" y2="346" stroke="#333" marker-end="url(#arrow)"/>
+  <text x="70" y="270" font-size="11" fill="#333">TCP · ClientProxy</text>
+  <text x="70" y="284" font-size="11" fill="#333">destinasi.* ulasan.* fasilitas.*</text>
+  <text x="600" y="270" font-size="11" fill="#333">TCP · ClientProxy</text>
+  <text x="600" y="284" font-size="11" fill="#333">reservasi.create</text>
+
+  <!-- Services -->
+  <rect x="100" y="348" width="260" height="70" rx="10" fill="#d5e8d4" stroke="#82b366"/>
+  <text x="230" y="376" text-anchor="middle" font-weight="bold">service-destinasi — TCP :5001</text>
+  <text x="230" y="396" text-anchor="middle" font-size="12">Destinasi · Kategori · Ulasan · Fasilitas</text>
+  <rect x="460" y="348" width="260" height="70" rx="10" fill="#d5e8d4" stroke="#82b366"/>
+  <text x="590" y="376" text-anchor="middle" font-weight="bold">service-reservasi — TCP :5002</text>
+  <text x="590" y="396" text-anchor="middle" font-size="12">Reservasi</text>
+
+  <!-- Services -> DB -->
+  <line x1="230" y1="418" x2="350" y2="500" stroke="#333" marker-end="url(#arrow)"/>
+  <line x1="590" y1="418" x2="470" y2="500" stroke="#333" marker-end="url(#arrow)"/>
+  <text x="250" y="468" font-size="11" fill="#333">Prisma</text>
+  <text x="530" y="468" font-size="11" fill="#333">Prisma</text>
+  <!-- Gateway -> DB (User) -->
+  <line x1="410" y1="250" x2="410" y2="494" stroke="#333" stroke-dasharray="5 4" marker-end="url(#arrow)"/>
+  <text x="418" y="440" font-size="11" fill="#333">Prisma (tabel User:</text>
+  <text x="418" y="454" font-size="11" fill="#333">register/login)</text>
+
+  <!-- DB -->
+  <path d="M340,508 a70,12 0 0,0 140,0 v64 a70,12 0 0,1 -140,0 z" fill="#f8cecc" stroke="#b85450"/>
+  <ellipse cx="410" cy="508" rx="70" ry="12" fill="#f8cecc" stroke="#b85450"/>
+  <text x="410" y="548" text-anchor="middle" font-weight="bold">MariaDB</text>
+  <text x="410" y="566" text-anchor="middle" font-size="12">wisataku_db</text>
+</svg>

@@ -1,0 +1,52 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 820 540" width="820" height="540" font-family="Arial, Helvetica, sans-serif" font-size="13">
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#333"/>
+    </marker>
+  </defs>
+  <rect width="820" height="540" fill="#ffffff"/>
+  <text x="410" y="20" text-anchor="middle" font-size="15" font-weight="bold">Tahap Awal WisataKu: Monolitik Modular</text>
+
+  <rect x="140" y="40" width="180" height="56" rx="10" fill="#dae8fc" stroke="#6c8ebf"/>
+  <text x="230" y="64" text-anchor="middle" font-weight="bold">Aplikasi Mobile</text>
+  <text x="230" y="82" text-anchor="middle">Wisatawan</text>
+  <rect x="500" y="40" width="180" height="56" rx="10" fill="#dae8fc" stroke="#6c8ebf"/>
+  <text x="590" y="64" text-anchor="middle" font-weight="bold">Aplikasi Web Admin</text>
+  <text x="590" y="82" text-anchor="middle">Admin</text>
+
+  <line x1="230" y1="96" x2="300" y2="158" stroke="#333" marker-end="url(#arrow)"/>
+  <line x1="590" y1="96" x2="520" y2="158" stroke="#333" marker-end="url(#arrow)"/>
+  <text x="255" y="132" text-anchor="end" font-size="11" fill="#333">HTTP · REST / GraphQL · JWT</text>
+  <text x="570" y="132" font-size="11" fill="#333">HTTP · REST · JWT (admin)</text>
+
+  <rect x="80" y="160" width="660" height="210" rx="12" fill="#fff2cc" stroke="#d6b656"/>
+  <text x="410" y="184" text-anchor="middle" font-weight="bold">wisataku-api (NestJS, satu proses) — :3000</text>
+  <text x="410" y="202" text-anchor="middle" font-size="11" fill="#555">ValidationPipe · Swagger /api/docs · GraphQL /graphql</text>
+
+  <g font-size="12">
+    <rect x="100" y="218" width="115" height="58" rx="8" fill="#fff" stroke="#999"/>
+    <text x="157" y="243" text-anchor="middle" font-weight="bold">AuthModule</text>
+    <text x="157" y="261" text-anchor="middle">JWT · RBAC</text>
+    <rect x="225" y="218" width="115" height="58" rx="8" fill="#fff" stroke="#999"/>
+    <text x="282" y="243" text-anchor="middle" font-weight="bold">Destinasi</text>
+    <text x="282" y="261" text-anchor="middle">REST + GraphQL</text>
+    <rect x="350" y="218" width="115" height="58" rx="8" fill="#fff" stroke="#999"/>
+    <text x="407" y="243" text-anchor="middle" font-weight="bold">Ulasan</text>
+    <text x="407" y="261" text-anchor="middle">GraphQL mutation</text>
+    <rect x="475" y="218" width="115" height="58" rx="8" fill="#fff" stroke="#999"/>
+    <text x="532" y="251" text-anchor="middle" font-weight="bold">Fasilitas</text>
+    <rect x="600" y="218" width="120" height="58" rx="8" fill="#fff" stroke="#999"/>
+    <text x="660" y="251" text-anchor="middle" font-weight="bold">Reservasi</text>
+  </g>
+
+  <rect x="300" y="300" width="220" height="40" rx="8" fill="#f5f5f5" stroke="#666"/>
+  <text x="410" y="325" text-anchor="middle">PrismaModule (global)</text>
+
+  <line x1="410" y1="340" x2="410" y2="418" stroke="#333" marker-end="url(#arrow)"/>
+  <text x="418" y="392" font-size="11" fill="#333">Prisma Client</text>
+
+  <path d="M340,432 a70,12 0 0,0 140,0 v64 a70,12 0 0,1 -140,0 z" fill="#f8cecc" stroke="#b85450"/>
+  <ellipse cx="410" cy="432" rx="70" ry="12" fill="#f8cecc" stroke="#b85450"/>
+  <text x="410" y="472" text-anchor="middle" font-weight="bold">MariaDB</text>
+  <text x="410" y="490" text-anchor="middle" font-size="12">wisataku_db</text>
+</svg>
