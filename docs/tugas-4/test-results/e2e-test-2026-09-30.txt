@@ -1,0 +1,66 @@
+# Command: npm run test:e2e -- --verbose
+# Dijalankan: 2026-09-30 21:54:24 +0700 (MariaDB lokal port 3307; setelah perbaikan contoh error Swagger)
+
+
+> wisataku@2.0.0 test:e2e
+> jest --config ./test/jest-e2e.json --runInBand --verbose
+
+PASS test/wisataku-flow.e2e-spec.ts (7.56 s)
+  Alur Lengkap Wisatawan WisataKu lewat API Gateway (e2e)
+    √ 1. Registrasi wisatawan baru (121 ms)
+    √ 2. Login dan menerima token JWT (108 ms)
+    √ 3. Mencari destinasi kategori Pantai (26 ms)
+    √ 4. Membuat reservasi dengan token yang valid (18 ms)
+    √ 5. Wisatawan ditolak menghapus destinasi (403) (9 ms)
+    Fitur gateway
+      √ /v1 dan /v2 menyajikan struktur harga yang berbeda untuk data yang sama (27 ms)
+      √ /destinasi tanpa prefix versi setara dengan v1 (11 ms)
+      √ GET /destinasi/:id/lengkap menggabungkan destinasi, ulasan, dan fasilitas (13 ms)
+      √ 404 dari service-destinasi diteruskan gateway sebagai HTTP 404 (11 ms)
+      √ validasi reservasi dari service-reservasi diteruskan sebagai 400 (11 ms)
+      √ GraphQL di gateway mengambil data dari microservice (63 ms)
+
+PASS test/destinasi.e2e-spec.ts
+  WisataKu API monolitik (e2e)
+    Auth
+      √ POST /auth/register membuat akun wisatawan (201) tanpa mengembalikan password (110 ms)
+      √ POST /auth/register dengan email yang sama ditolak (409) (7 ms)
+      √ POST /auth/register dengan data tidak valid ditolak (400) (6 ms)
+      √ POST /auth/login mengembalikan token (200) (108 ms)
+      √ POST /auth/login dengan password salah ditolak (401) (104 ms)
+    GET /destinasi
+      √ mengembalikan status 200 dan array (10 ms)
+      √ memfilter berdasarkan kategori (8 ms)
+      √ menolak query limit yang tidak valid (400) (6 ms)
+      √ GET /destinasi/abc ditolak ParseIntPipe (400) (5 ms)
+      √ GET /destinasi/999999 mengembalikan 404 (5 ms)
+    Otorisasi endpoint admin
+      √ POST /destinasi tanpa token ditolak (401) (6 ms)
+      √ POST /destinasi dengan token tidak valid ditolak (401) (5 ms)
+      √ POST /destinasi dengan token kedaluwarsa ditolak (401) (5 ms)
+      √ POST /destinasi oleh wisatawan ditolak (403) (6 ms)
+      √ POST /destinasi oleh admin dengan body tidak valid ditolak (400) (8 ms)
+    CRUD destinasi oleh admin
+      √ POST /destinasi membuat destinasi (201) (19 ms)
+      √ PATCH /destinasi/:id mengubah sebagian data (200) (14 ms)
+      √ PATCH /destinasi/:id oleh wisatawan ditolak (403) (6 ms)
+      √ PATCH /destinasi/999999 mengembalikan 404 (7 ms)
+      √ DELETE /destinasi/:id oleh wisatawan ditolak (403) (6 ms)
+      √ DELETE /destinasi/:id oleh admin berhasil (200) lalu data hilang (404) (17 ms)
+      √ DELETE /destinasi/999999 mengembalikan 404 (8 ms)
+    Reservasi
+      √ wisatawan membuat reservasi (201) dengan totalHarga dari server (11 ms)
+      √ tanggal kunjungan yang sudah lewat ditolak (400) (5 ms)
+      √ destinasi yang sudah punya reservasi tidak bisa dihapus (409) (133 ms)
+    GraphQL
+      √ tambahUlasan tanpa token ditolak (UNAUTHENTICATED) (12 ms)
+      √ tambahUlasan oleh wisatawan menyimpan ulasan dan memperbarui ratingRata (47 ms)
+      √ tambahUlasan dengan rating di luar 1-5 ditolak validasi (8 ms)
+      √ destinasi(id) yang tidak ada menghasilkan error NOT_FOUND (9 ms)
+      √ cariDestinasi(kategori) hanya mengembalikan kategori tersebut (10 ms)
+
+Test Suites: 2 passed, 2 total
+Tests:       41 passed, 41 total
+Snapshots:   0 total
+Time:        10.154 s
+Ran all test suites.

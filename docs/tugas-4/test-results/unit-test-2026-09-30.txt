@@ -1,0 +1,70 @@
+# Command: npm run test -- --verbose
+# Dijalankan: 2026-09-30 21:54:24 +0700
+
+
+> wisataku@2.0.0 test
+> jest --verbose
+
+PASS libs/common/src/rpc/http-to-rpc-exception.filter.spec.ts (5.755 s)
+  HttpToRpcExceptionFilter
+    √ meneruskan status dan pesan NotFoundException (25 ms)
+    √ meneruskan daftar pesan validasi (2 ms)
+    √ menyembunyikan detail error yang tidak dikenal sebagai 500 (2 ms)
+
+PASS libs/auth/src/jwt.strategy.spec.ts (6.051 s)
+  JwtStrategy
+    √ memetakan payload { sub, role } menjadi request.user (16 ms)
+    √ gagal dibuat jika JWT_SECRET tidak diisi (21 ms)
+
+PASS libs/auth/src/guards/roles.guard.spec.ts (7.714 s)
+  RolesGuard
+    √ mengizinkan handler tanpa @Roles (16 ms)
+    √ mengizinkan user dengan role yang sesuai (1 ms)
+    √ menolak wisatawan pada endpoint admin dengan 403 (22 ms)
+    √ menolak request tanpa user (3 ms)
+
+PASS libs/domain/src/reservasi/reservasi.service.spec.ts (8.376 s)
+  ReservasiService
+    √ menghitung totalHarga dari harga tiket di database (12 ms)
+    √ menolak tanggal kunjungan yang sudah lewat (19 ms)
+    √ menolak destinasi yang tidak ada (1 ms)
+
+PASS libs/domain/src/destinasi/destinasi.service.spec.ts (8.381 s)
+  DestinasiService
+    √ findAll memfilter berdasarkan nama kategori dan meratakan field kategori (12 ms)
+    √ findAll menghitung skip dari page dan limit (1 ms)
+    √ findOne melempar NotFoundException jika id tidak ada (17 ms)
+    √ create menghubungkan kategori berdasarkan nama (dibuat jika belum ada) (2 ms)
+    √ update melempar NotFoundException tanpa menyentuh database jika id tidak ada (2 ms)
+    √ remove mengubah pelanggaran foreign key reservasi menjadi 409 (2 ms)
+
+PASS gateway/src/clients/rpc.spec.ts (8.405 s)
+  rpc client helper
+    √ toHttpException mempertahankan status dari microservice (11 ms)
+    √ toHttpException mengubah error koneksi menjadi 503 (1 ms)
+    √ sendRpc mengembalikan balasan pertama (4 ms)
+    √ sendRpc melempar 404 jika microservice membalas error 404 (2 ms)
+    √ sendRpc melempar 503 jika microservice tidak membalas sampai timeout (45 ms)
+
+PASS libs/auth/src/auth.service.spec.ts (8.643 s)
+  AuthService
+    register
+      √ menyimpan hash bcrypt, bukan password asli, dengan role wisatawan (234 ms)
+      √ menolak registrasi jika email sudah terdaftar (19 ms)
+    login
+      √ mengembalikan JWT berisi sub dan role jika kredensial benar (13 ms)
+      √ menolak password yang salah (8 ms)
+      √ menolak email yang tidak terdaftar dengan pesan yang sama (2 ms)
+
+PASS gateway/src/destinasi/v2/destinasi-v2.spec.ts (8.947 s)
+  Destinasi v1 vs v2
+    √ v1 menampilkan hargaTiket dan tidak menampilkan hargaAnak (8 ms)
+    √ v2 mengganti hargaTiket dengan hargaDewasa dan hargaAnak (2 ms)
+    √ input v2 hargaDewasa disimpan ke kolom hargaTiket (1 ms)
+    √ PATCH v2 tanpa hargaDewasa tidak mengubah hargaTiket (1 ms)
+
+Test Suites: 8 passed, 8 total
+Tests:       32 passed, 32 total
+Snapshots:   0 total
+Time:        12.462 s, estimated 29 s
+Ran all test suites.

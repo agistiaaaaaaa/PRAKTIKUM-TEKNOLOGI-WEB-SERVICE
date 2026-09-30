@@ -32,6 +32,14 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "message": [
+                    "email must be an email",
+                    "password must be longer than or equal to 8 characters"
+                  ],
+                  "error": "Bad Request",
+                  "statusCode": 400
                 }
               }
             }
@@ -42,6 +50,11 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "message": "Email sudah terdaftar",
+                  "error": "Conflict",
+                  "statusCode": 409
                 }
               }
             }
@@ -84,6 +97,14 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "message": [
+                    "email must be an email",
+                    "password should not be empty"
+                  ],
+                  "error": "Bad Request",
+                  "statusCode": 400
                 }
               }
             }
@@ -94,6 +115,11 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "message": "Email atau password salah",
+                  "error": "Unauthorized",
+                  "statusCode": 401
                 }
               }
             }
@@ -163,6 +189,14 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "message": [
+                    "limit must not be greater than 100",
+                    "limit must be an integer number"
+                  ],
+                  "error": "Bad Request",
+                  "statusCode": 400
                 }
               }
             }
@@ -203,6 +237,14 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "message": [
+                    "nama should not be empty",
+                    "hargaTiket must not be less than 0"
+                  ],
+                  "error": "Bad Request",
+                  "statusCode": 400
                 }
               }
             }
@@ -213,6 +255,10 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "message": "Unauthorized",
+                  "statusCode": 401
                 }
               }
             }
@@ -223,6 +269,11 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "message": "Anda tidak berwenang mengakses resource ini",
+                  "error": "Forbidden",
+                  "statusCode": 403
                 }
               }
             }
@@ -269,6 +320,11 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "message": "Validation failed (numeric string is expected)",
+                  "error": "Bad Request",
+                  "statusCode": 400
                 }
               }
             }
@@ -328,6 +384,13 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "message": [
+                    "hargaTiket must not be less than 0"
+                  ],
+                  "error": "Bad Request",
+                  "statusCode": 400
                 }
               }
             }
@@ -338,6 +401,10 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "message": "Unauthorized",
+                  "statusCode": 401
                 }
               }
             }
@@ -348,6 +415,11 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "message": "Anda tidak berwenang mengakses resource ini",
+                  "error": "Forbidden",
+                  "statusCode": 403
                 }
               }
             }
@@ -404,6 +476,10 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "message": "Unauthorized",
+                  "statusCode": 401
                 }
               }
             }
@@ -414,6 +490,11 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "message": "Anda tidak berwenang mengakses resource ini",
+                  "error": "Forbidden",
+                  "statusCode": 403
                 }
               }
             }
@@ -434,6 +515,11 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "message": "Destinasi tidak dapat dihapus karena sudah memiliki reservasi",
+                  "error": "Conflict",
+                  "statusCode": 409
                 }
               }
             }
@@ -569,6 +655,11 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "message": "tanggalKunjungan tidak boleh sebelum hari ini",
+                  "error": "Bad Request",
+                  "statusCode": 400
                 }
               }
             }
@@ -579,6 +670,10 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "message": "Unauthorized",
+                  "statusCode": 401
                 }
               }
             }
@@ -589,6 +684,11 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "message": "Anda tidak berwenang mengakses resource ini",
+                  "error": "Forbidden",
+                  "statusCode": 403
                 }
               }
             }

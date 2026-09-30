@@ -4,7 +4,7 @@ Audit dilakukan 2026-09-30 setelah laptop mati mendadak (sekitar pukul 00.44, be
 
 ## Environment
 
-- workspace ditemukan: `D:\TUGAS BAIQ AGESTIA\PRAKTIKUM WEB SERVICE NEST JS`
+- workspace: folder project `wisataku`
 - project ditemukan: `wisataku/` (Nest CLI monorepo: `wisataku-api`, `gateway`, `service-destinasi`, `service-reservasi`, `libs/{common,auth,domain}`)
 - runtime lokal: `.wisataku-local/` di luar project (data MariaDB 12.1 port 3307, npm cache, log). Di-ignore oleh `.gitignore`.
 - git repository: **tidak ada** (belum `git init`)

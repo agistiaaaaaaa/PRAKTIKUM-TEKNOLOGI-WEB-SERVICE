@@ -1,0 +1,54 @@
+# Evidence GraphQL WisataKu (http://localhost:3000/graphql) — verifikasi pendamping screenshot Apollo Sandbox
+# Dijalankan: 2026-09-30 21:34:41 +0700
+
+Mutation tambahUlasan dijalankan di Apollo Sandbox (lihat screenshots/apollo-mutation.png) oleh user wisatawan uji
+apollo-evidence-1790778490@example.com terhadap destinasi uji sementara id=31. Verifikasi persistensi lewat REST:
+
+$ curl -s -i http://localhost:3000/destinasi/31/ulasan
+HTTP/1.1 200 OK
+X-Powered-By: Express
+Content-Type: application/json; charset=utf-8
+Content-Length: 162
+ETag: W/"a2-TO6arHurABAPHYBToFE8f9AdwrY"
+Date: Wed, 30 Sep 2026 14:34:41 GMT
+Connection: keep-alive
+Keep-Alive: timeout=5
+
+[{"id":27,"destinasiId":31,"userId":36,"rating":5,"komentar":"Evidence Apollo Sandbox: pantai bersih dan pemandangan indah","tanggal":"2026-09-30T14:33:41.771Z"}]
+
+$ curl -s -i http://localhost:3000/destinasi/31   (ratingRata diperbarui dari 0 menjadi 5)
+HTTP/1.1 200 OK
+X-Powered-By: Express
+Content-Type: application/json; charset=utf-8
+Content-Length: 250
+ETag: W/"fa-R0bt9xu5Rljw0/CbgwSHa1pQjWs"
+Date: Wed, 30 Sep 2026 14:34:41 GMT
+Connection: keep-alive
+Keep-Alive: timeout=5
+
+{"id":31,"nama":"Evidence Apollo (sementara)","kategori":"Pantai","lokasi":"Lombok","deskripsi":"Destinasi uji untuk evidence mutation tambahUlasan, dihapus setelah screenshot","hargaTiket":10000,"ratingRata":5,"createdAt":"2026-09-30T14:28:11.181Z"}
+
+## Pembersihan: admin menghapus destinasi uji (ulasan ikut terhapus lewat onDelete: Cascade)
+$ curl -s -i -X DELETE http://localhost:3000/destinasi/31 -H 'Authorization: Bearer <token admin>'
+HTTP/1.1 200 OK
+X-Powered-By: Express
+Content-Type: application/json; charset=utf-8
+Content-Length: 40
+ETag: W/"28-dduUeNf3qiUgLvQlMUM/s2ASdIA"
+Date: Wed, 30 Sep 2026 14:34:42 GMT
+Connection: keep-alive
+Keep-Alive: timeout=5
+
+{"message":"Destinasi berhasil dihapus"}
+
+$ curl -s -i http://localhost:3000/destinasi/31
+HTTP/1.1 404 Not Found
+X-Powered-By: Express
+Content-Type: application/json; charset=utf-8
+Content-Length: 89
+ETag: W/"59-HgTDs5QFeOlUVcWY9Va3SHXOnlo"
+Date: Wed, 30 Sep 2026 14:34:42 GMT
+Connection: keep-alive
+Keep-Alive: timeout=5
+
+{"message":"Destinasi dengan id 31 tidak ditemukan","error":"Not Found","statusCode":404}

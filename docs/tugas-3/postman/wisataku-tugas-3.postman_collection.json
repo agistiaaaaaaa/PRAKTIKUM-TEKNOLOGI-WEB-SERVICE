@@ -1,0 +1,132 @@
+{
+  "info": {
+    "name": "WisataKu - Tugas 3 REST API",
+    "description": "Koleksi uji REST resource Destinasi WisataKu (monolit). Jalankan dengan Postman atau Newman terhadap http://localhost:3000.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    { "key": "baseUrl", "value": "http://localhost:3000" },
+    { "key": "destinasiId", "value": "1" }
+  ],
+  "item": [
+    {
+      "name": "GET /destinasi",
+      "request": { "method": "GET", "url": "{{baseUrl}}/destinasi" },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test('status 200', () => pm.response.to.have.status(200));",
+              "pm.test('body berupa array destinasi', () => {",
+              "  const body = pm.response.json();",
+              "  pm.expect(body).to.be.an('array').that.is.not.empty;",
+              "  pm.expect(body[0]).to.include.keys('id', 'nama', 'kategori', 'hargaTiket', 'ratingRata');",
+              "});"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "GET /destinasi?kategori=Pantai",
+      "request": { "method": "GET", "url": "{{baseUrl}}/destinasi?kategori=Pantai" },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test('status 200', () => pm.response.to.have.status(200));",
+              "pm.test('semua kategori Pantai', () => {",
+              "  pm.response.json().forEach((d) => pm.expect(d.kategori).to.eql('Pantai'));",
+              "});"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "GET /destinasi/:id",
+      "request": { "method": "GET", "url": "{{baseUrl}}/destinasi/{{destinasiId}}" },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test('status 200', () => pm.response.to.have.status(200));",
+              "pm.test('id sesuai', () => pm.expect(pm.response.json().id).to.eql(Number(pm.collectionVariables.get('destinasiId'))));"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "GET /destinasi/:id/ulasan",
+      "request": { "method": "GET", "url": "{{baseUrl}}/destinasi/{{destinasiId}}/ulasan" },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test('status 200', () => pm.response.to.have.status(200));",
+              "pm.test('array ulasan', () => pm.expect(pm.response.json()).to.be.an('array'));"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "GET /destinasi/:id/fasilitas",
+      "request": { "method": "GET", "url": "{{baseUrl}}/destinasi/{{destinasiId}}/fasilitas" },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test('status 200', () => pm.response.to.have.status(200));",
+              "pm.test('array fasilitas', () => pm.expect(pm.response.json()).to.be.an('array'));"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "GET /destinasi/999999 (404)",
+      "request": { "method": "GET", "url": "{{baseUrl}}/destinasi/999999" },
+      "event": [
+        {
+          "listen": "test",
+          "script": { "exec": ["pm.test('status 404', () => pm.response.to.have.status(404));"] }
+        }
+      ]
+    },
+    {
+      "name": "GET /destinasi/abc (400)",
+      "request": { "method": "GET", "url": "{{baseUrl}}/destinasi/abc" },
+      "event": [
+        {
+          "listen": "test",
+          "script": { "exec": ["pm.test('status 400', () => pm.response.to.have.status(400));"] }
+        }
+      ]
+    },
+    {
+      "name": "POST /destinasi tanpa token (401)",
+      "request": {
+        "method": "POST",
+        "url": "{{baseUrl}}/destinasi",
+        "header": [{ "key": "Content-Type", "value": "application/json" }],
+        "body": {
+          "mode": "raw",
+          "raw": "{\"nama\":\"Uji Postman\",\"kategori\":\"Pantai\",\"hargaTiket\":10000}"
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": { "exec": ["pm.test('status 401', () => pm.response.to.have.status(401));"] }
+        }
+      ]
+    }
+  ]
+}

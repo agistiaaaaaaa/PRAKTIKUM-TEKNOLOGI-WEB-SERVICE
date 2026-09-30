@@ -17,15 +17,15 @@ Dicentang hanya bila luaran sudah ada **dan** sudah diperiksa. Bukti per butir a
 - [x] OpenAPI JSON — `docs/tugas-2/openapi.json`
 - [x] OpenAPI YAML — `docs/tugas-2/openapi.yaml`
 - [x] Laporan PDF — `docs/tugas-2/laporan-tugas-2.pdf`
-- [ ] Swagger evidence — verifikasi HTTP ada; **ACTION REQUIRED — SCREENSHOT SWAGGER**
+- [x] Swagger evidence — `docs/tugas-2/screenshots/swagger-overview.png`, `swagger-destinasi.png` (Try it out, respons asli)
 
 ## TUGAS 3 — REST & GraphQL
 
 - [x] REST implementation
 - [x] GraphQL implementation
-- [x] API test evidence (log) — `docs/tugas-4/test-results/e2e-test.txt`
-- [ ] **ACTION REQUIRED — SCREENSHOT POSTMAN**
-- [ ] **ACTION REQUIRED — SCREENSHOT APOLLO SANDBOX**
+- [x] API test evidence (log) — `docs/tugas-3/rest-api-evidence.txt`, `graphql-evidence.txt`, `docs/tugas-4/test-results/e2e-test-2026-09-30.txt`
+- [x] Postman collection — `docs/tugas-3/postman/` dijalankan dengan Newman (8 request, 13/13 assertion); screenshot aplikasi Postman GUI belum diambil (opsional, modul menerima Postman/Apollo Sandbox)
+- [x] Screenshot Apollo Sandbox — `docs/tugas-3/screenshots/apollo-query.png`, `apollo-mutation.png`
 - [x] Laporan — `docs/tugas-3/laporan-tugas-3.pdf`
 
 ## TUGAS 4 — Keamanan & Pengujian
@@ -33,9 +33,10 @@ Dicentang hanya bila luaran sudah ada **dan** sudah diperiksa. Bukti per butir a
 - [x] JWT
 - [x] RBAC
 - [x] Unit tests — 32/32
-- [x] E2E tests — 41/41 PASS pada run pengujian sebelumnya
-- [ ] k6 — **PENDING — k6 runtime execution** (skrip siap, k6 belum terpasang)
-- [x] Testing report — `docs/tugas-4/laporan-keamanan-testing.pdf` (bagian k6 perlu diperbarui setelah dijalankan)
+- [x] E2E tests — 41/41 PASS (30 September 2026)
+- [x] Screenshot JWT/RBAC — `docs/tugas-4/screenshots/01`–`05` (register 201, login 200, 401, 403, admin 201; JWT disensor)
+- [x] k6 — 1500 request, 0% gagal, avg 5,79 ms, p(95) 26,58 ms (`docs/tugas-4/test-results/k6-output.txt`)
+- [x] Testing report — `docs/tugas-4/laporan-keamanan-testing.pdf`
 
 ## TUGAS 5 — Integrasi & Deployment
 

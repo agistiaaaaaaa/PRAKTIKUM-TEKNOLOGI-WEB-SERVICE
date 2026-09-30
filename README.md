@@ -285,7 +285,7 @@ k6 run load-test.js # load test, memerlukan k6 dan API yang berjalan
 | E2E monolit (`test/destinasi.e2e-spec.ts`) | Auth, GET/filter/400/404, 401 tanpa token/token invalid/token kedaluwarsa, 403 wisatawan, CRUD admin, reservasi, 409, GraphQL | Terverifikasi |
 | E2E alur Bab 8.4 (`test/wisataku-flow.e2e-spec.ts`) | Register → login → cari → reservasi → 403, v1 vs v2, `/lengkap`, error dari microservice, GraphQL lewat gateway | Terverifikasi |
 | Smoke test manual | Monolit 32 cek, gateway 37 cek, lewat HTTP ke server yang berjalan | Terverifikasi |
-| Load test k6 (`load-test.js`) | `GET /destinasi`, 50 VU, 30 detik | Belum dijalankan, k6 belum terpasang |
+| Load test k6 (`load-test.js`) | `GET /destinasi`, 50 VU, 30 detik | Terverifikasi pada monolit: 1500 request, 0% gagal, p(95) 26,58 ms (`docs/tugas-4/test-results/k6-output.txt`) |
 
 E2E gateway menjalankan kedua microservice di dalam proses test pada port 15001/15002 dan berkomunikasi melalui TCP sungguhan. Data uji dibuat dengan prefix email `e2e-` dan dihapus setelah test selesai. Output asli test tersimpan di `docs/tugas-4/test-results/`.
 
@@ -368,7 +368,7 @@ Hasil pemeriksaan terakhir di mesin pengembangan (Windows 11, Node.js 24.15, Mar
 | API Smoke Test | PASS (monolit 32/32, gateway 37/37) |
 | Swagger UI & GraphQL landing page | PASS (HTTP 200) |
 | Docker Runtime | BLOCKED - Docker not installed |
-| k6 | BLOCKED - k6 not installed |
+| k6 | PASS (monolit, 0% gagal, p95 26,58 ms) |
 | Cloud deployment | NOT STARTED |
 
 Rincian per tugas: `docs/final-audit.md`.

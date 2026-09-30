@@ -27,7 +27,7 @@ docs/tugas-5/openapi-gateway.{json,yaml}: 15 path
 | Pemeriksaan | Cara | Hasil |
 |---|---|---|
 | Setiap endpoint di OpenAPI benar-benar ada | Smoke test HTTP ke seluruh endpoint monolit (32 cek) dan gateway (37 cek) | Semua sesuai |
-| Status code yang dideklarasikan benar-benar dikembalikan | e2e test memeriksa 200/201/400/401/403/404/409 (`docs/tugas-4/test-results/e2e-test.txt`) | 41/41 lulus |
+| Status code yang dideklarasikan benar-benar dikembalikan | e2e test memeriksa 200/201/400/401/403/404/409 (`docs/tugas-4/test-results/e2e-test-2026-09-30.txt`) | 41/41 lulus |
 | Skema request sesuai validasi | e2e: body tidak valid ditolak 400 pada register, create destinasi, reservasi | Lulus |
 | Endpoint admin ditandai `bearer` | Pemeriksaan `security` pada `openapi.json` | 4 operasi monolit bertanda `bearer`, sesuai endpoint yang memakai `JwtAuthGuard` |
 
@@ -46,13 +46,18 @@ GET     /destinasi/{id}/fasilitas   200,404
 POST    /reservasi                  201,400,401,403,404    [bearer]
 ```
 
-## 4. Screenshot
+## 4. Contoh respons error
 
-Screenshot tidak dapat diambil dari lingkungan terminal yang dipakai untuk menyusun dokumen ini, dan tidak dibuat tiruan.
+Semula seluruh respons error memakai contoh bawaan skema `ErrorResponse` (body 404), termasuk pada 400/401/403/409. Mulai 30 September 2026, `buildOpenApiDocument` memberi setiap respons error contoh sesuai kode statusnya, dengan pesan dari respons asli API. Perubahan hanya pada dokumen OpenAPI. Setelah perubahan: `npm run typecheck` exit 0, `npm run build` 4/4 sukses, unit test 32/32, e2e test 41/41.
 
-**ACTION REQUIRED — SCREENSHOT SWAGGER**: jalankan aplikasi (`npm run start:api` atau gateway), buka `http://localhost:3000/api/docs`, lalu ambil screenshot berikut dan simpan di `docs/tugas-2/screenshots/`:
+## 5. Screenshot
 
-- [SCREENSHOT REQUIRED: Swagger UI halaman utama, seluruh tag terlihat]
-- [SCREENSHOT REQUIRED: Skema `CreateDestinasiDto` pada `POST /destinasi`]
-- [SCREENSHOT REQUIRED: Tombol Authorize dengan token admin, lalu "Try it out" `POST /destinasi` → 201]
-- [SCREENSHOT REQUIRED: "Try it out" `POST /destinasi` tanpa token → 401]
+Diambil 30 September 2026 dari Swagger UI aplikasi yang berjalan di `http://localhost:3000/api/docs` (Chrome dikendalikan Puppeteer; respons asli server):
+
+| File | Isi |
+|---|---|
+| `screenshots/swagger-overview.png` | Halaman utama: tag Auth, Destinasi, Reservasi, seluruh endpoint, ikon gembok, daftar skema |
+| `screenshots/swagger-destinasi.png` | "Try it out" `GET /destinasi/{id}` id = 1 → 200, beserta contoh 400 dan 404 |
+| `../tugas-4/screenshots/03-post-destinasi-tanpa-token-401.png` | "Try it out" `POST /destinasi` tanpa token → 401 |
+| `../tugas-4/screenshots/04-post-destinasi-wisatawan-403.png` | Authorize token wisatawan, `POST /destinasi` → 403 |
+| `../tugas-4/screenshots/05-post-destinasi-admin-201.png` | Authorize token admin, `POST /destinasi` → 201 (JWT disensor) |

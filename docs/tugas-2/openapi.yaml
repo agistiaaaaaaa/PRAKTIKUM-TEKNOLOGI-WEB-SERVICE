@@ -23,12 +23,22 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/ErrorResponse"
+              example:
+                message:
+                  - email must be an email
+                  - password must be longer than or equal to 8 characters
+                error: Bad Request
+                statusCode: 400
         "409":
           description: Email sudah terdaftar
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/ErrorResponse"
+              example:
+                message: Email sudah terdaftar
+                error: Conflict
+                statusCode: 409
       summary: Registrasi akun wisatawan baru
       tags: &a1
         - Auth
@@ -55,12 +65,22 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/ErrorResponse"
+              example:
+                message:
+                  - email must be an email
+                  - password should not be empty
+                error: Bad Request
+                statusCode: 400
         "401":
           description: Email atau password salah
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/ErrorResponse"
+              example:
+                message: Email atau password salah
+                error: Unauthorized
+                statusCode: 401
       summary: Login dan menerima token JWT
       tags: *a1
   /destinasi:
@@ -106,6 +126,12 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/ErrorResponse"
+              example:
+                message:
+                  - limit must not be greater than 100
+                  - limit must be an integer number
+                error: Bad Request
+                statusCode: 400
       summary: Menampilkan daftar destinasi, dapat difilter berdasarkan kategori
       tags: &a2
         - Destinasi
@@ -131,18 +157,31 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/ErrorResponse"
+              example:
+                message:
+                  - nama should not be empty
+                  - hargaTiket must not be less than 0
+                error: Bad Request
+                statusCode: 400
         "401":
           description: Token tidak ada/tidak valid
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/ErrorResponse"
+              example:
+                message: Unauthorized
+                statusCode: 401
         "403":
           description: Bukan admin
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/ErrorResponse"
+              example:
+                message: Anda tidak berwenang mengakses resource ini
+                error: Forbidden
+                statusCode: 403
       security:
         - bearer: []
       summary: Menambahkan destinasi baru (khusus admin)
@@ -169,6 +208,10 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/ErrorResponse"
+              example:
+                message: Validation failed (numeric string is expected)
+                error: Bad Request
+                statusCode: 400
         "404":
           description: ""
           content:
@@ -204,18 +247,30 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/ErrorResponse"
+              example:
+                message:
+                  - hargaTiket must not be less than 0
+                error: Bad Request
+                statusCode: 400
         "401":
           description: ""
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/ErrorResponse"
+              example:
+                message: Unauthorized
+                statusCode: 401
         "403":
           description: ""
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/ErrorResponse"
+              example:
+                message: Anda tidak berwenang mengakses resource ini
+                error: Forbidden
+                statusCode: 403
         "404":
           description: ""
           content:
@@ -248,12 +303,19 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/ErrorResponse"
+              example:
+                message: Unauthorized
+                statusCode: 401
         "403":
           description: ""
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/ErrorResponse"
+              example:
+                message: Anda tidak berwenang mengakses resource ini
+                error: Forbidden
+                statusCode: 403
         "404":
           description: ""
           content:
@@ -266,6 +328,10 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/ErrorResponse"
+              example:
+                message: Destinasi tidak dapat dihapus karena sudah memiliki reservasi
+                error: Conflict
+                statusCode: 409
       security:
         - bearer: []
       summary: Menghapus destinasi (khusus admin)
@@ -345,18 +411,29 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/ErrorResponse"
+              example:
+                message: tanggalKunjungan tidak boleh sebelum hari ini
+                error: Bad Request
+                statusCode: 400
         "401":
           description: ""
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/ErrorResponse"
+              example:
+                message: Unauthorized
+                statusCode: 401
         "403":
           description: Hanya role wisatawan
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/ErrorResponse"
+              example:
+                message: Anda tidak berwenang mengakses resource ini
+                error: Forbidden
+                statusCode: 403
         "404":
           description: Destinasi tidak ditemukan
           content:

@@ -22,7 +22,24 @@ tmp/
 .idea/
 .DS_Store
 Thumbs.db
+*.tmp
+*.temp
+*.bak
+*.swp
+*.swo
 
+# local editor and coding-assistant state
+.claude/
+.cursor/
+.cursorignore
+.cursorindex*
+.ai/
+.agent/
+.mcp/
+.codex/
+CLAUDE.md
+GEMINI.md
+AGENTS.md
 
 # dokumen Word acuan, bukan bagian repository
 docs/*.docx

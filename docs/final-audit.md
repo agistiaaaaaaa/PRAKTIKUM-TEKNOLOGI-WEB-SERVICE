@@ -36,7 +36,8 @@ Luaran modul: file OpenAPI (YAML/JSON) + screenshot Swagger UI.
 | 2 | OpenAPI JSON | PASS | `docs/tugas-2/openapi.json`, diekspor dari kode |
 | 2 | OpenAPI YAML | PASS | `docs/tugas-2/openapi.yaml` |
 | 2 | Laporan PDF | PASS | `docs/tugas-2/laporan-tugas-2.pdf` |
-| 2 | Screenshot Swagger UI | PENDING | ACTION REQUIRED — SCREENSHOT SWAGGER; tidak dibuat tiruan |
+| 2 | Screenshot Swagger UI | PASS | `docs/tugas-2/screenshots/swagger-overview.png`, `swagger-destinasi.png` (Try it out `GET /destinasi/1` → 200, respons asli) |
+| 2 | Contoh error OpenAPI sesuai status code | PASS | `buildOpenApiDocument` memberi contoh 400/401/403/409/503 dari pesan asli API; unit 32/32 dan e2e 41/41 tetap lulus |
 
 ## Tugas 3 — Implementasi RESTful & GraphQL API
 
@@ -50,9 +51,9 @@ Luaran modul: source code (GitHub) + screenshot uji API (Postman/Apollo Sandbox)
 | 3 | `@ResolveField` ulasan & fasilitas | PASS | e2e: query bertingkat mengembalikan ulasan & fasilitas |
 | 3 | Mutation `tambahUlasan` | PASS | e2e: `ratingRata` diperbarui menjadi 4.5 |
 | 3 | Perbandingan jumlah request REST vs GraphQL | PASS | `docs/tugas-3/laporan-tugas-3.md` bagian 5 |
-| 3 | Bukti uji API (log) | PASS | `docs/tugas-4/test-results/e2e-test.txt`, smoke test di `docs/recovery-status.md` |
-| 3 | Screenshot Postman | PENDING | ACTION REQUIRED — SCREENSHOT POSTMAN (laporan bagian 6.1) |
-| 3 | Screenshot Apollo Sandbox | PENDING | ACTION REQUIRED — SCREENSHOT APOLLO SANDBOX (laporan bagian 6.2) |
+| 3 | Bukti uji API (log) | PASS | `docs/tugas-3/rest-api-evidence.txt` (curl), `graphql-evidence.txt`, `docs/tugas-4/test-results/e2e-test-2026-09-30.txt` |
+| 3 | Uji Postman | PASS (CLI) | Koleksi `docs/tugas-3/postman/` dijalankan Newman: 8 request, 13/13 assertion. Screenshot aplikasi Postman GUI belum diambil (opsional) |
+| 3 | Screenshot Apollo Sandbox | PASS | `docs/tugas-3/screenshots/apollo-query.png` (query `destinasi(id: 1)` bertingkat → 200), `apollo-mutation.png` (`tambahUlasan` dengan token wisatawan → 200) |
 | 3 | Source code di GitHub | BLOCKED | Git lokal ada; URL remote belum diberikan |
 | 3 | Laporan PDF | PASS | `docs/tugas-3/laporan-tugas-3.pdf` |
 
@@ -66,10 +67,11 @@ Luaran modul: source code keamanan API + laporan pengujian PDF.
 | 4 | JWT `{ sub, role }`, JwtStrategy, JwtAuthGuard | PASS | unit test JWT; e2e 401 tanpa token/invalid/kedaluwarsa |
 | 4 | `@Roles` + RolesGuard (admin, wisatawan) | PASS | unit test RolesGuard; e2e 403 |
 | 4 | Guard pada mutation GraphQL | PASS | e2e `UNAUTHENTICATED` tanpa token |
-| 4 | Unit test (`npm run test`) | PASS | 32/32, `test-results/unit-test.txt` |
-| 4 | E2E test (`npm run test:e2e`) | PASS | 41/41 PASS pada run pengujian sebelumnya (30 September 2026), `test-results/e2e-test.txt`; belum dijalankan ulang karena database lokal tidak aktif |
-| 4 | Load test k6 | PENDING | PENDING — k6 runtime execution; `load-test.js` siap, k6 belum terpasang, tidak ada angka performa |
-| 4 | Laporan pengujian PDF | PASS | `docs/tugas-4/laporan-keamanan-testing.pdf` (bagian k6 dinyatakan belum dijalankan) |
+| 4 | Unit test (`npm run test`) | PASS | 32/32, `test-results/unit-test-2026-09-30.txt` |
+| 4 | E2E test (`npm run test:e2e`) | PASS | 41/41 (30 September 2026), `test-results/e2e-test-2026-09-30.txt` |
+| 4 | Verifikasi JWT/RBAC di server berjalan | PASS | register 201, login 200 (JWT `sub`+`role`), 401, 403, admin 201; `screenshots/01`–`05`, `test-results/jwt-rbac-evidence.txt` |
+| 4 | Load test k6 | PASS | k6 v2.2.0, 50 VU 30 detik: 1500 request, 0% gagal, avg 5,79 ms, p(95) 26,58 ms; `test-results/k6-output.txt` |
+| 4 | Laporan pengujian PDF | PASS | `docs/tugas-4/laporan-keamanan-testing.pdf` |
 
 ## Tugas 5 — Integrasi & Deployment Web Service
 
@@ -87,7 +89,7 @@ Luaran modul: Dockerfile & image + URL layanan API.
 | 5 | Docker runtime verification | BLOCKED | Docker Desktop belum terpasang |
 | 5 | Deploy ke VPS / URL aktif | BLOCKED | belum ada akses server |
 | 5 | Laporan evaluasi: `npm audit` | PASS | `docs/tugas-5/evaluasi/`, dibahas di laporan bagian 7.1 |
-| 5 | Laporan evaluasi: load test terbaru | BLOCKED | k6 belum terpasang |
+| 5 | Laporan evaluasi: load test terbaru | PENDING | k6 v2.2.0 (binary rilis resmi, belum terpasang di PATH sistem) sudah dijalankan untuk monolit (Tugas 4); load test ke gateway belum dijalankan |
 | 5 | Laporan evaluasi: potensi breaking change | PASS | laporan bagian 7.3 |
 | 5 | Laporan PDF | PASS | `docs/tugas-5/laporan-tugas-5.pdf` |
 
@@ -116,9 +118,9 @@ Luaran modul: source code (GitHub) + API ter-deploy + dokumentasi teknis PDF + s
 | Build 4 aplikasi | PASS |
 | Typecheck | PASS |
 | Unit test | PASS 32/32 |
-| E2E test | PASS 41/41 pada run pengujian sebelumnya (belum dijalankan ulang; MariaDB lokal dihentikan sistem karena memori rendah) |
+| E2E test | PASS 41/41 (30 September 2026) |
 | Prisma | PASS |
 | API smoke test | PASS |
 | Docker runtime | BLOCKED |
-| k6 | PENDING — k6 runtime execution |
+| k6 | PASS (monolit): 1500 request, 0% gagal, p(95) 26,58 ms |
 | Deployment | BLOCKED |

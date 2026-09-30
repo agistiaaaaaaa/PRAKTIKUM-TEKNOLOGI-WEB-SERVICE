@@ -1,0 +1,90 @@
+# Evidence JWT & RBAC WisataKu (monolit, http://localhost:3000)
+# Dijalankan: 2026-09-30 20:35:29 +0700 — output curl -i apa adanya dari server
+# Token JWT dipotong (…) di log ini; token lengkap dipakai pada request.
+
+$ curl -s -X POST http://localhost:3000/auth/register -H 'Content-Type: application/json' -d '{"nama":"Evidence Wisatawan","email":"evidence-wisatawan-1790775328@example.com","password":"rahasia123"}'
+(hanya response body yang ditangkap; status/header tidak direkam) {"id":34,"nama":"Evidence Wisatawan","email":"evidence-wisatawan-1790775328@example.com","role":"wisatawan"}
+
+
+$ curl -s -i -X POST http://localhost:3000/auth/login -H 'Content-Type: application/json' -d '{"email":"evidence-wisatawan-1790775328@example.com","password":"rahasia123"}'
+HTTP/1.1 200 OK
+X-Powered-By: Express
+Content-Type: application/json; charset=utf-8
+Content-Length: 206
+ETag: W/"ce-4ijIPb6KcNp7td1OcVMKjtT5sD8"
+Date: Wed, 30 Sep 2026 13:35:29 GMT
+Connection: keep-alive
+Keep-Alive: timeout=5
+
+{"access_token":"eyJhbGciOiJIU…","token_type":"Bearer"}
+
+payload JWT wisatawan: {"sub":34,"role":"wisatawan","iat":1790775329,"exp":1790778929}
+
+
+$ curl -s -i -X POST http://localhost:3000/auth/login -H 'Content-Type: application/json' -d '{"email":"admin@wisataku.id","password":"<SEED_ADMIN_PASSWORD dari .env>"}'
+HTTP/1.1 200 OK
+X-Powered-By: Express
+Content-Type: application/json; charset=utf-8
+Content-Length: 200
+ETag: W/"c8-LtX6aZvCzw5pUM1k1QUSc23GvmM"
+Date: Wed, 30 Sep 2026 13:35:29 GMT
+Connection: keep-alive
+Keep-Alive: timeout=5
+
+{"access_token":"eyJhbGciOiJIU…","token_type":"Bearer"}
+
+payload JWT admin: {"sub":1,"role":"admin","iat":1790775329,"exp":1790778929}
+
+
+## 1. Tanpa token -> diharapkan 401
+$ curl -s -i -X POST http://localhost:3000/destinasi -H 'Content-Type: application/json' -d '{"nama":"Evidence RBAC Destinasi","kategori":"Pantai","lokasi":"Lombok","deskripsi":"Data uji evidence RBAC","hargaTiket":10000}'
+HTTP/1.1 401 Unauthorized
+X-Powered-By: Express
+Content-Type: application/json; charset=utf-8
+Content-Length: 43
+ETag: W/"2b-dGnJzt6gv1nJjX6DJ9RztDWptng"
+Date: Wed, 30 Sep 2026 13:35:30 GMT
+Connection: keep-alive
+Keep-Alive: timeout=5
+
+{"message":"Unauthorized","statusCode":401}
+
+## 2. Token wisatawan -> diharapkan 403
+$ curl -s -i -X POST http://localhost:3000/destinasi -H 'Authorization: Bearer <token wisatawan>' -H 'Content-Type: application/json' -d '{"nama":"Evidence RBAC Destinasi","kategori":"Pantai","lokasi":"Lombok","deskripsi":"Data uji evidence RBAC","hargaTiket":10000}'
+HTTP/1.1 403 Forbidden
+X-Powered-By: Express
+Content-Type: application/json; charset=utf-8
+Content-Length: 94
+ETag: W/"5e-8EbeLUTUjkapMUrhTjXdZQ4AZNU"
+Date: Wed, 30 Sep 2026 13:35:30 GMT
+Connection: keep-alive
+Keep-Alive: timeout=5
+
+{"message":"Anda tidak berwenang mengakses resource ini","error":"Forbidden","statusCode":403}
+
+## 3. Token admin -> diharapkan 201
+$ curl -s -i -X POST http://localhost:3000/destinasi -H 'Authorization: Bearer <token admin>' -H 'Content-Type: application/json' -d '{"nama":"Evidence RBAC Destinasi","kategori":"Pantai","lokasi":"Lombok","deskripsi":"Data uji evidence RBAC","hargaTiket":10000}'
+HTTP/1.1 201 Created
+X-Powered-By: Express
+Content-Type: application/json; charset=utf-8
+Content-Length: 190
+ETag: W/"be-+S6jUDknwgzkLsrYeYnXXosufms"
+Date: Wed, 30 Sep 2026 13:35:30 GMT
+Connection: keep-alive
+Keep-Alive: timeout=5
+
+{"id":29,"nama":"Evidence RBAC Destinasi","kategori":"Pantai","lokasi":"Lombok","deskripsi":"Data uji evidence RBAC","hargaTiket":10000,"ratingRata":0,"createdAt":"2026-09-30T13:35:30.790Z"}
+
+
+## Pembersihan: admin menghapus destinasi uji id=29
+$ curl -s -i -X DELETE http://localhost:3000/destinasi/29 -H 'Authorization: Bearer <token admin>'
+HTTP/1.1 200 OK
+X-Powered-By: Express
+Content-Type: application/json; charset=utf-8
+Content-Length: 40
+ETag: W/"28-dduUeNf3qiUgLvQlMUM/s2ASdIA"
+Date: Wed, 30 Sep 2026 13:35:31 GMT
+Connection: keep-alive
+Keep-Alive: timeout=5
+
+{"message":"Destinasi berhasil dihapus"}

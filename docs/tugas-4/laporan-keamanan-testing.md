@@ -105,13 +105,13 @@ Perintah: `npm run test`. **Hasil: 8 suite, 32 test, semua lulus.**
 | Klien RPC gateway | status error microservice dipertahankan; error koneksi → 503; timeout → 503 |
 | Destinasi v1 vs v2 | struktur harga v1/v2 dan pemetaan input v2 ke kolom `hargaTiket` |
 
-Output lengkap: `test-results/unit-test.txt`.
+Output lengkap: `test-results/unit-test-2026-09-30.txt` (run terakhir, 30 September 2026; run awal di `test-results/unit-test.txt`).
 
 # 5. Pengujian End-to-End (Supertest)
 
 E2E test menjalankan aplikasi NestJS sungguhan terhadap MariaDB dari `DATABASE_URL`. Data uji (user dengan prefix email `e2e-` dan destinasi uji) dibuat sendiri oleh test dan dihapus setelah selesai, sehingga test tidak bergantung pada data seed dan tidak meninggalkan sisa data.
 
-Perintah: `npm run test:e2e`. **Hasil: 41/41 PASS pada run pengujian sebelumnya** (2 suite, 30 September 2026, MariaDB 12.1 lokal). E2E belum dijalankan ulang setelah dokumentasi difinalisasi karena database lokal sedang tidak aktif.
+Perintah: `npm run test:e2e`. **Hasil: 2 suite, 41 test, semua lulus** (30 September 2026, MariaDB 12.1 lokal).
 
 ## 5.1 Monolit — `test/destinasi.e2e-spec.ts` (30 test)
 
@@ -130,11 +130,45 @@ Token kedaluwarsa dibuat dengan `JwtService.sign(payload, { expiresIn: -10 })` d
 
 Gateway, `service-destinasi`, dan `service-reservasi` dijalankan dalam proses test, dengan komunikasi antar-layanan tetap melalui TCP sungguhan (port 15001/15002). Langkah 1–5 mengikuti modul: registrasi → login → cari kategori Pantai → reservasi 201 → wisatawan ditolak menghapus destinasi 403. Tanggal kunjungan pada contoh modul (`2025-12-25`) sudah lewat, sehingga test memakai tanggal 30 hari ke depan. Enam test tambahan memeriksa v1 vs v2, `/lengkap`, penerusan 404 dan 400 dari microservice, serta GraphQL lewat gateway.
 
-Output lengkap: `test-results/e2e-test.txt`.
+Output lengkap: `test-results/e2e-test-2026-09-30.txt` (run terakhir; run awal di `test-results/e2e-test.txt`).
 
 ## 5.3 Smoke test manual
 
 Selain test otomatis, dilakukan smoke test HTTP terhadap server hasil build yang berjalan: monolit 32/32 cek dan gateway 37/37 cek lulus. Data smoke test dihapus setelahnya.
+
+## 5.4 Verifikasi alur JWT dan RBAC pada server berjalan
+
+Alur keamanan juga diverifikasi secara langsung terhadap aplikasi yang berjalan di `http://localhost:3000` (30 September 2026), melalui Swagger UI ("Try it out" dan tombol **Authorize**) dan melalui curl. Token yang dipakai adalah token asli dari `POST /auth/login`. Pada gambar, nilai JWT ditutup kotak "JWT DISENSOR" agar token tidak tersebar; respons server tidak diubah.
+
+| Langkah | Request | Hasil |
+|---|---|---|
+| 1 | `POST /auth/register` akun wisatawan baru | 201, body tanpa password, `role: "wisatawan"` |
+| 2 | `POST /auth/login` | 200, `access_token` dan `token_type: "Bearer"` |
+| 3 | `POST /destinasi` tanpa token | 401 Unauthorized |
+| 4 | `POST /destinasi` dengan token wisatawan | 403 Forbidden, "Anda tidak berwenang mengakses resource ini" |
+| 5 | `POST /destinasi` dengan token admin | 201 Created |
+
+Payload JWT hasil login (bagian tengah token, di-decode base64url) berisi klaim `sub` dan `role`, misalnya `{"sub":34,"role":"wisatawan","iat":1790775329,"exp":1790778929}` untuk wisatawan dan `{"sub":1,"role":"admin",...}` untuk admin. Selisih `exp - iat` = 3600 detik, sesuai `JWT_EXPIRES_IN`. Destinasi yang dibuat pada langkah 5 dihapus kembali oleh admin (200, lalu `GET` → 404). Log curl lengkap tersimpan di `test-results/jwt-rbac-evidence.txt`.
+
+![Register wisatawan: 201](screenshots/01-register-201.png)
+
+*Gambar 5.1 `POST /auth/register` → 201. Respons berisi `id`, `nama`, `email`, dan `role` tanpa password.*
+
+![Login: 200 dengan access_token](screenshots/02-login-200-token.png)
+
+*Gambar 5.2 `POST /auth/login` → 200 dengan `access_token` (disensor) dan `token_type` Bearer.*
+
+![POST /destinasi tanpa token: 401](screenshots/03-post-destinasi-tanpa-token-401.png)
+
+*Gambar 5.3 `POST /destinasi` tanpa header Authorization → 401 Unauthorized (ditolak `JwtAuthGuard`).*
+
+![POST /destinasi dengan token wisatawan: 403](screenshots/04-post-destinasi-wisatawan-403.png)
+
+*Gambar 5.4 `POST /destinasi` dengan token wisatawan → 403 Forbidden (ditolak `RolesGuard`).*
+
+![POST /destinasi dengan token admin: 201](screenshots/05-post-destinasi-admin-201.png)
+
+*Gambar 5.5 `POST /destinasi` dengan token admin → 201 Created.*
 
 # 6. Pengujian Performa (k6)
 
@@ -145,15 +179,27 @@ k6 run load-test.js
 k6 run -e BASE_URL=http://<host>:3000 load-test.js
 ```
 
-**Status: PENDING — k6 runtime execution.** k6 belum terpasang di mesin pengembangan, sehingga load test belum pernah dijalankan. Laporan ini sengaja tidak memuat angka response time, throughput, request rate, persentil, maupun error rate. Tabel berikut diisi setelah k6 dijalankan, dengan output asli disimpan di `test-results/k6-*.txt`.
+Load test dijalankan pada 30 September 2026 dengan k6 v2.2.0 (rilis resmi Grafana untuk Windows) terhadap monolit `wisataku-api` yang berjalan di `http://localhost:3000` dengan MariaDB 12.1 lokal. Skrip `load-test.js` dipakai tanpa perubahan.
 
-| Metrik | Monolit | Gateway |
-|---|---|---|
-| `http_reqs` (total, per detik) | PENDING | PENDING |
-| `http_req_duration` avg | PENDING | PENDING |
-| `http_req_duration` p(95) | PENDING | PENDING |
-| `http_req_failed` | PENDING | PENDING |
-| Threshold terpenuhi | PENDING | PENDING |
+| Metrik | Hasil |
+|---|---|
+| Virtual users | 50 (`vus_max` 50) |
+| Durasi | 30 detik |
+| `http_reqs` | 1500 request (49,59 request/detik) |
+| `iterations` | 1500 |
+| `http_req_duration` avg | 5,79 ms |
+| `http_req_duration` median | 3,08 ms |
+| `http_req_duration` p(90) | 8,73 ms |
+| `http_req_duration` p(95) | 26,58 ms |
+| `http_req_duration` max | 56,55 ms |
+| `http_req_failed` | 0,00% (0 dari 1500) |
+| Check `status 200` | 100% (1500 dari 1500) |
+| Threshold `p(95)<500` | terpenuhi (26,58 ms) |
+| Threshold `rate<0.01` | terpenuhi (0,00%) |
+
+Throughput sekitar 50 request/detik sesuai rancangan skrip, yaitu 50 VU dengan jeda `sleep(1)` per iterasi. Angka ini bukan kapasitas maksimum server. Waktu respons p(95) di bawah 30 ms dan tidak ada request yang gagal, sehingga pada beban ini `GET /destinasi` jauh di bawah batas 500 ms. Pengukuran dilakukan di mesin pengembangan lokal (client dan server di mesin yang sama, tanpa latensi jaringan), sehingga hasil di server deploy dapat berbeda. Load test ke gateway termasuk lingkup Tugas 5 dan tidak dijalankan pada laporan ini.
+
+Output asli k6: `test-results/k6-output.txt`.
 
 # 7. Masalah yang Ditemukan Saat Pengujian
 
@@ -165,5 +211,5 @@ k6 run -e BASE_URL=http://<host>:3000 load-test.js
 
 1. Password disimpan sebagai hash bcrypt; login menghasilkan JWT HS256 berisi `sub` dan `role` dengan masa berlaku terbatas.
 2. Endpoint sensitif dilindungi `JwtAuthGuard`/`GqlAuthGuard` dan `RolesGuard`: tanpa token atau token tidak valid/kedaluwarsa → 401, role salah → 403.
-3. Unit test 32/32 PASS. E2E test 41/41 PASS pada run pengujian sebelumnya. Output asli keduanya disimpan di `test-results/`.
-4. Load test k6 sudah disiapkan tetapi belum dijalankan karena k6 belum terpasang. Belum ada hasil performa yang dapat dilaporkan.
+3. Unit test 32/32 PASS dan E2E test 41/41 PASS (30 September 2026). Verifikasi langsung pada server berjalan: register 201, login 200 dengan JWT berisi `sub` dan `role`, tanpa token 401, wisatawan 403, admin 201. Output asli dan screenshot disimpan di `test-results/` dan `screenshots/`.
+4. Load test k6 (50 VU, 30 detik, `GET /destinasi`) menghasilkan 1500 request, 0% gagal, rata-rata 5,79 ms, dan p(95) 26,58 ms; kedua threshold terpenuhi.

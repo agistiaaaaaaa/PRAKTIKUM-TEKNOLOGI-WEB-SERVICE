@@ -1,0 +1,67 @@
+# Command: newman run docs/tugas-3/postman/wisataku-tugas-3.postman_collection.json --color off
+# Newman 6.2.2 (runner koleksi resmi Postman), target http://localhost:3000
+# Dijalankan: 2026-09-30 21:56:38 +0700
+
+(node:12596) [DEP0176] DeprecationWarning: fs.F_OK is deprecated, use fs.constants.F_OK instead
+(Use `node --trace-deprecation ...` to show where the warning was created)
+newman
+
+WisataKu - Tugas 3 REST API
+
+→ GET /destinasi
+  GET http://localhost:3000/destinasi [200 OK, 1.44kB, 50ms]
+  √  status 200
+  √  body berupa array destinasi
+
+→ GET /destinasi?kategori=Pantai
+  GET http://localhost:3000/destinasi?kategori=Pantai [200 OK, 711B, 10ms]
+  √  status 200
+  √  semua kategori Pantai
+
+→ GET /destinasi/:id
+  GET http://localhost:3000/destinasi/1 [200 OK, 474B, 6ms]
+  √  status 200
+  √  id sesuai
+
+→ GET /destinasi/:id/ulasan
+  GET http://localhost:3000/destinasi/1/ulasan [200 OK, 529B, 8ms]
+  √  status 200
+  √  array ulasan
+
+→ GET /destinasi/:id/fasilitas
+  GET http://localhost:3000/destinasi/1/fasilitas [200 OK, 403B, 9ms]
+  √  status 200
+  √  array fasilitas
+
+→ GET /destinasi/999999 (404)
+  GET http://localhost:3000/destinasi/999999 [404 Not Found, 335B, 5ms]
+  √  status 404
+
+→ GET /destinasi/abc (400)
+  GET http://localhost:3000/destinasi/abc [400 Bad Request, 343B, 3ms]
+  √  status 400
+
+→ POST /destinasi tanpa token (401)
+  POST http://localhost:3000/destinasi [401 Unauthorized, 288B, 22ms]
+  √  status 401
+
+┌─────────────────────────┬──────────────────┬──────────────────┐
+│                         │         executed │           failed │
+├─────────────────────────┼──────────────────┼──────────────────┤
+│              iterations │                1 │                0 │
+├─────────────────────────┼──────────────────┼──────────────────┤
+│                requests │                8 │                0 │
+├─────────────────────────┼──────────────────┼──────────────────┤
+│            test-scripts │                8 │                0 │
+├─────────────────────────┼──────────────────┼──────────────────┤
+│      prerequest-scripts │                0 │                0 │
+├─────────────────────────┼──────────────────┼──────────────────┤
+│              assertions │               13 │                0 │
+├─────────────────────────┴──────────────────┴──────────────────┤
+│ total run duration: 748ms                                     │
+├───────────────────────────────────────────────────────────────┤
+│ total data received: 2.6kB (approx)                           │
+├───────────────────────────────────────────────────────────────┤
+│ average response time: 14ms [min: 3ms, max: 50ms, s.d.: 14ms] │
+└───────────────────────────────────────────────────────────────┘
+# exit code: 0

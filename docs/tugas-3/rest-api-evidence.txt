@@ -1,0 +1,75 @@
+# Evidence REST API WisataKu (monolit, http://localhost:3000)
+# Dijalankan: 2026-09-30 20:35:28 +0700 — output curl -i apa adanya dari server
+
+$ curl -s -i http://localhost:3000/destinasi
+HTTP/1.1 200 OK
+X-Powered-By: Express
+Content-Type: application/json; charset=utf-8
+Content-Length: 1197
+ETag: W/"4ad-L2r1Z32XHi9txSZOj8eY3xLi2aA"
+Date: Wed, 30 Sep 2026 13:35:28 GMT
+Connection: keep-alive
+Keep-Alive: timeout=5
+
+[{"id":5,"nama":"Desa Adat Sade","kategori":"Budaya","lokasi":"Rembitan, Lombok Tengah","deskripsi":"Desa suku Sasak dengan rumah adat dan kerajinan tenun.","hargaTiket":10000,"ratingRata":4.5,"createdAt":"2026-09-29T17:32:58.831Z"},{"id":4,"nama":"Gunung Rinjani via Sembalun","kategori":"Gunung","lokasi":"Sembalun, Lombok Timur","deskripsi":"Jalur pendakian menuju Danau Segara Anak dan puncak Rinjani.","hargaTiket":50000,"ratingRata":4.5,"createdAt":"2026-09-29T17:32:58.825Z"},{"id":3,"nama":"Gili Trawangan","kategori":"Pulau","lokasi":"Gili Indah, Lombok Utara","deskripsi":"Pulau kecil tanpa kendaraan bermotor, populer untuk snorkeling.","hargaTiket":20000,"ratingRata":4.3,"createdAt":"2026-09-29T17:32:58.820Z"},{"id":2,"nama":"Pantai Tanjung Aan","kategori":"Pantai","lokasi":"Sengkol, Lombok Tengah","deskripsi":"Pantai dengan pasir berbutir besar, dekat Bukit Merese.","hargaTiket":10000,"ratingRata":5,"createdAt":"2026-09-29T17:32:58.812Z"},{"id":1,"nama":"Pantai Kuta Mandalika","kategori":"Pantai","lokasi":"Kuta, Lombok Tengah","deskripsi":"Pantai berpasir putih di kawasan ekonomi khusus Mandalika.","hargaTiket":15000,"ratingRata":4.5,"createdAt":"2026-09-29T17:32:58.800Z"}]
+
+$ curl -s -i http://localhost:3000/destinasi/1
+HTTP/1.1 200 OK
+X-Powered-By: Express
+Content-Type: application/json; charset=utf-8
+Content-Length: 238
+ETag: W/"ee-/bFfYGnUtKRTHfX2Zf/fI6Kf/So"
+Date: Wed, 30 Sep 2026 13:35:28 GMT
+Connection: keep-alive
+Keep-Alive: timeout=5
+
+{"id":1,"nama":"Pantai Kuta Mandalika","kategori":"Pantai","lokasi":"Kuta, Lombok Tengah","deskripsi":"Pantai berpasir putih di kawasan ekonomi khusus Mandalika.","hargaTiket":15000,"ratingRata":4.5,"createdAt":"2026-09-29T17:32:58.800Z"}
+
+$ curl -s -i http://localhost:3000/destinasi/1/ulasan
+HTTP/1.1 200 OK
+X-Powered-By: Express
+Content-Type: application/json; charset=utf-8
+Content-Length: 292
+ETag: W/"124-AgtwMgB1WuBmBFgVRbQRJUWInJc"
+Date: Wed, 30 Sep 2026 13:35:28 GMT
+Connection: keep-alive
+Keep-Alive: timeout=5
+
+[{"id":2,"destinasiId":1,"userId":2,"rating":4,"komentar":"Ramai saat akhir pekan, datang pagi lebih nyaman.","tanggal":"2026-09-29T17:32:58.800Z"},{"id":1,"destinasiId":1,"userId":2,"rating":5,"komentar":"Pasirnya bersih dan ombaknya bagus untuk foto.","tanggal":"2026-09-29T17:32:58.800Z"}]
+
+$ curl -s -i http://localhost:3000/destinasi/1/fasilitas
+HTTP/1.1 200 OK
+X-Powered-By: Express
+Content-Type: application/json; charset=utf-8
+Content-Length: 167
+ETag: W/"a7-p7ZWx6Fj5Rrw8bJEhx9+1OqEjQ4"
+Date: Wed, 30 Sep 2026 13:35:28 GMT
+Connection: keep-alive
+Keep-Alive: timeout=5
+
+[{"id":1,"destinasiId":1,"namaFasilitas":"Area parkir"},{"id":2,"destinasiId":1,"namaFasilitas":"Toilet umum"},{"id":3,"destinasiId":1,"namaFasilitas":"Warung makan"}]
+
+$ curl -s -i http://localhost:3000/destinasi/999999
+HTTP/1.1 404 Not Found
+X-Powered-By: Express
+Content-Type: application/json; charset=utf-8
+Content-Length: 93
+ETag: W/"5d-cYosIiaB0dEEHkRnzh+/cow1kQM"
+Date: Wed, 30 Sep 2026 13:35:28 GMT
+Connection: keep-alive
+Keep-Alive: timeout=5
+
+{"message":"Destinasi dengan id 999999 tidak ditemukan","error":"Not Found","statusCode":404}
+
+$ curl -s -i http://localhost:3000/destinasi/abc
+HTTP/1.1 400 Bad Request
+X-Powered-By: Express
+Content-Type: application/json; charset=utf-8
+Content-Length: 99
+ETag: W/"63-fbYqGzam3W3FhpKYGVugOXQk+/M"
+Date: Wed, 30 Sep 2026 13:35:28 GMT
+Connection: keep-alive
+Keep-Alive: timeout=5
+
+{"message":"Validation failed (numeric string is expected)","error":"Bad Request","statusCode":400}
+

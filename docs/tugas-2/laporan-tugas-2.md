@@ -63,7 +63,7 @@ Enam endpoint destinasi pertama sama dengan rancangan pada tabel Bab 2.3.1 modul
 | `DELETE /destinasi/:id` | ✓ | | | ✓ | ✓ | ✓ | ✓ sudah ada reservasi |
 | `POST /reservasi` | | ✓ | ✓ tanggal lampau | ✓ | ✓ bukan wisatawan | ✓ destinasi | |
 
-Tabel ini sama dengan respons yang dideklarasikan di `openapi.json`. Status code tersebut juga diuji oleh e2e test (`test/destinasi.e2e-spec.ts`), yang lulus 41/41 pada run pengujian 30 September 2026.
+Tabel ini sama dengan respons yang dideklarasikan di `openapi.json`. Status code tersebut juga diuji oleh e2e test (`test/destinasi.e2e-spec.ts`), yang lulus 41/41 pada run pengujian 30 September 2026 (output: `docs/tugas-4/test-results/e2e-test-2026-09-30.txt`).
 
 # 5. Request dan Response
 
@@ -119,6 +119,8 @@ Untuk error validasi, `message` berupa array pesan:
 { "statusCode": 400, "message": ["hargaTiket must not be less than 0"], "error": "Bad Request" }
 ```
 
+Karena semua respons error memakai skema `ErrorResponse` yang sama, contoh bawaannya semula selalu berupa body 404, termasuk pada respons 400, 401, 403, dan 409. Kekeliruan dokumentasi ini diperbaiki di `buildOpenApiDocument` (`libs/common/src/http/configure-http-app.ts`): setiap respons error kini diberi contoh sesuai kode statusnya, dengan pesan yang diambil dari respons asli API (misalnya `"Validation failed (numeric string is expected)"` untuk `GET /destinasi/abc`). Perubahan ini hanya menyentuh dokumen OpenAPI; perilaku API tidak berubah, dan unit test 32/32 serta e2e test 41/41 tetap lulus setelah perubahan.
+
 # 6. Autentikasi pada Dokumentasi
 
 `DocumentBuilder().addBearerAuth()` menambahkan skema keamanan `bearer`. Endpoint yang dilindungi diberi `@ApiBearerAuth()`, sehingga Swagger UI menampilkan ikon gembok dan tombol **Authorize** untuk memasukkan token hasil `POST /auth/login`. Pada `openapi.json`, empat operasi memiliki `security: [{ bearer: [] }]`: `POST /destinasi`, `PATCH /destinasi/{id}`, `DELETE /destinasi/{id}`, dan `POST /reservasi`.
@@ -153,22 +155,23 @@ Pemeriksaan dilakukan pada 30 September 2026 terhadap aplikasi hasil build yang 
 | Pemeriksaan kesesuaian | Hasil |
 |---|---|
 | Setiap endpoint di OpenAPI benar-benar ada | Smoke test HTTP: monolit 32/32, gateway 37/37 |
-| Status code yang dideklarasikan benar-benar dikembalikan | E2E test 41/41 PASS pada run pengujian sebelumnya |
+| Status code yang dideklarasikan benar-benar dikembalikan | E2E test 41/41 PASS (`docs/tugas-4/test-results/e2e-test-2026-09-30.txt`) |
 | Body tidak valid ditolak sesuai skema DTO | E2E: register, create destinasi, dan reservasi → 400 |
 | Endpoint admin/wisatawan ditandai `bearer` | 4 operasi, sesuai endpoint yang memakai `JwtAuthGuard` |
 
 ## 8.1 Screenshot Swagger UI
 
-Screenshot belum tersedia. Bagian ini sengaja tidak diisi gambar tiruan.
+Screenshot diambil pada 30 September 2026 dari Swagger UI aplikasi yang berjalan (`npm run start:api`, `http://localhost:3000/api/docs`) dengan Chrome yang dikendalikan otomatis (Puppeteer). Seluruh respons pada gambar adalah respons asli server.
 
-> **ACTION REQUIRED — SCREENSHOT SWAGGER**
->
-> Jalankan `npm run start:api`, buka `http://localhost:3000/api/docs`, lalu ambil screenshot berikut dan simpan di `docs/tugas-2/screenshots/`:
->
-> 1. Halaman utama Swagger UI dengan tag Auth, Destinasi, dan Reservasi terlihat
-> 2. Skema `CreateDestinasiDto` pada `POST /destinasi`
-> 3. Tombol **Authorize** diisi token admin, lalu "Try it out" `POST /destinasi` → 201
-> 4. "Try it out" `POST /destinasi` tanpa token → 401
+![Swagger UI WisataKu API: tag Auth, Destinasi, dan Reservasi beserta seluruh endpoint dan skema](screenshots/swagger-overview.png)
+
+*Gambar 8.1 Halaman utama Swagger UI. Endpoint yang dilindungi JWT (`POST`, `PATCH`, `DELETE /destinasi`, dan `POST /reservasi`) ditandai ikon gembok.*
+
+![Try it out GET /destinasi/{id} dengan id = 1: respons 200 dari server](screenshots/swagger-destinasi.png)
+
+*Gambar 8.2 "Try it out" `GET /destinasi/{id}` dengan `id = 1`. Bagian Server response menampilkan kode 200, body, dan header asli dari server. Di bawahnya terlihat contoh 400 dan 404 yang terdokumentasi.*
+
+Pengujian endpoint terproteksi melalui tombol **Authorize** dan "Try it out" `POST /destinasi` (tanpa token → 401, token wisatawan → 403, token admin → 201) didokumentasikan pada laporan Tugas 4, folder `docs/tugas-4/screenshots/`.
 
 # 9. Kesimpulan
 
@@ -176,4 +179,4 @@ Screenshot belum tersedia. Bagian ini sengaja tidak diisi gambar tiruan.
 2. Setiap endpoint memiliki status code yang semantik dan terdokumentasi (200, 201, 400, 401, 403, 404, 409).
 3. DTO menjadi kontrak validasi sekaligus skema dokumentasi, sehingga dokumentasi tidak berbeda dari perilaku API.
 4. Dokumen OpenAPI 3.0 tersedia dalam format JSON dan YAML, diekspor langsung dari kode. Swagger UI dapat diakses di `/api/docs`.
-5. Screenshot Swagger UI masih harus diambil secara manual.
+5. Swagger UI telah diverifikasi pada aplikasi yang berjalan; screenshot halaman utama dan hasil "Try it out" disertakan pada Bagian 8.1.

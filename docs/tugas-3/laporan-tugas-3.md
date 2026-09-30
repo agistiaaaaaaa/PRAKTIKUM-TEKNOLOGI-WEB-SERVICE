@@ -171,36 +171,51 @@ Pengujian dijalankan otomatis, bukan hanya manual:
 
 | Bukti | File | Hasil |
 |---|---|---|
-| E2E REST & GraphQL monolit | `test/destinasi.e2e-spec.ts`, output di `docs/tugas-4/test-results/e2e-test.txt` | Lulus pada run pengujian 30 September 2026 (bagian dari 41/41) |
+| E2E REST & GraphQL monolit | `test/destinasi.e2e-spec.ts`, output di `docs/tugas-4/test-results/e2e-test-2026-09-30.txt` | Lulus, 30 September 2026 (bagian dari 41/41) |
 | Smoke test HTTP ke server berjalan | Dicatat di `docs/recovery-status.md` | Monolit 32/32, gateway 37/37 |
-| Unit test service domain | `libs/domain/src/**/*.spec.ts` | Lulus (bagian dari 32/32) |
+| Unit test service domain | `libs/domain/src/**/*.spec.ts`, output di `docs/tugas-4/test-results/unit-test-2026-09-30.txt` | Lulus (bagian dari 32/32) |
+| Koleksi Postman dijalankan Newman | `docs/tugas-3/postman/`, output `newman-run.txt` | 8 request, 13/13 assertion lulus |
+| Request HTTP mentah (curl) | `docs/tugas-3/rest-api-evidence.txt` | 200, 404, 400 sesuai harapan |
+| Apollo Sandbox query & mutation | `docs/tugas-3/screenshots/`, verifikasi di `graphql-evidence.txt` | 200, data valid |
 
 Skenario GraphQL yang diuji e2e: `tambahUlasan` tanpa token → `UNAUTHENTICATED`; dua ulasan (rating 5 dan 4) oleh wisatawan lalu `destinasi(id)` mengembalikan `ratingRata` 4.5, 2 ulasan, dan daftar fasilitas (kosong untuk destinasi uji); rating 9 → `BAD_REQUEST`; `destinasi(id: 999999)` → `NOT_FOUND`; `cariDestinasi(kategori: "Pantai")` hanya berisi kategori Pantai.
 
-## 6.1 Bukti Uji REST dengan Postman
+## 6.1 Bukti Uji REST (Postman Collection dan curl)
 
-Screenshot belum tersedia. Bagian ini sengaja tidak diisi gambar tiruan.
+Endpoint REST diuji terhadap aplikasi yang berjalan di `http://localhost:3000` pada 30 September 2026.
 
-> **ACTION REQUIRED — SCREENSHOT POSTMAN**
->
-> Jalankan `npm run start:api`, lalu ambil screenshot Postman untuk request berikut dan simpan di `docs/tugas-3/screenshots/`:
->
-> 1. `GET http://localhost:3000/destinasi?kategori=Pantai` → 200
-> 2. `POST http://localhost:3000/auth/login` (akun admin) → 200 dengan `access_token`
-> 3. `POST http://localhost:3000/destinasi` dengan header `Authorization: Bearer <token admin>` → 201
-> 4. `GET http://localhost:3000/destinasi/999999` → 404
+**Postman collection.** Koleksi `docs/tugas-3/postman/wisataku-tugas-3.postman_collection.json` berisi delapan request beserta test script Postman (`pm.test`). Koleksi ini dijalankan dengan Newman 6.2.2, runner koleksi resmi Postman untuk command line. Koleksi yang sama dapat di-*import* ke aplikasi Postman.
+
+| Request | Status | Assertion |
+|---|---|---|
+| `GET /destinasi` | 200 OK | status 200; body array destinasi dengan field `id`, `nama`, `kategori`, `hargaTiket`, `ratingRata` |
+| `GET /destinasi?kategori=Pantai` | 200 OK | semua item berkategori Pantai |
+| `GET /destinasi/1` | 200 OK | `id` = 1 |
+| `GET /destinasi/1/ulasan` | 200 OK | body array |
+| `GET /destinasi/1/fasilitas` | 200 OK | body array |
+| `GET /destinasi/999999` | 404 Not Found | status 404 |
+| `GET /destinasi/abc` | 400 Bad Request | status 400 (`ParseIntPipe`) |
+| `POST /destinasi` tanpa token | 401 Unauthorized | status 401 |
+
+Ringkasan Newman: 8 request, 8 test script, 13 assertion, 0 gagal; rata-rata waktu respons 14 ms. Output lengkap tersimpan di `docs/tugas-3/postman/newman-run.txt`.
+
+**curl.** Request dan respons HTTP mentah (status line, header, dan body) untuk `GET /destinasi`, `/destinasi/1`, `/destinasi/1/ulasan`, `/destinasi/1/fasilitas`, `/destinasi/999999` (404), dan `/destinasi/abc` (400) disimpan di `docs/tugas-3/rest-api-evidence.txt`.
+
+Pengujian endpoint admin (`POST /destinasi` dengan token admin → 201, token wisatawan → 403) didokumentasikan dengan screenshot Swagger UI pada laporan Tugas 4.
 
 ## 6.2 Bukti Uji GraphQL dengan Apollo Sandbox
 
-Screenshot belum tersedia. Bagian ini sengaja tidak diisi gambar tiruan.
+Apollo Sandbox dibuka di `http://localhost:3000/graphql` (landing page Apollo Server 5 mode development) pada aplikasi yang berjalan. Operasi diketik di panel Operation lalu dijalankan dengan tombol **Run**; panel Response menampilkan hasil asli dari server.
 
-> **ACTION REQUIRED — SCREENSHOT APOLLO SANDBOX**
->
-> Buka `http://localhost:3000/graphql` di browser, lalu ambil screenshot berikut dan simpan di `docs/tugas-3/screenshots/`:
->
-> 1. Query `destinasi(id: 1)` dengan field `nama`, `ratingRata`, `ulasan`, `fasilitas`
-> 2. Query `cariDestinasi(kategori: "Pantai")`
-> 3. Mutation `tambahUlasan` dengan header `Authorization: Bearer <token wisatawan>`
+![Apollo Sandbox: query destinasi(id: 1) dengan nested ulasan dan fasilitas](screenshots/apollo-query.png)
+
+*Gambar 6.1 Query `destinasi(id: 1)` dengan field `nama`, `kategori`, `ratingRata`, `ulasan { rating komentar tanggal }`, dan `fasilitas { namaFasilitas }`. Respons 200 memuat Pantai Kuta Mandalika, `ratingRata` 4.5, dua ulasan, dan tiga fasilitas dalam satu request.*
+
+![Apollo Sandbox: mutation tambahUlasan dengan header Authorization token wisatawan](screenshots/apollo-mutation.png)
+
+*Gambar 6.2 Mutation `tambahUlasan` dengan header `Authorization: Bearer <token wisatawan>` pada tab Headers (nilai token disensor pada gambar). Respons 200 mengembalikan ulasan baru: `id` 27, `destinasiId` 31, `userId` 36, `rating` 5.*
+
+Mutation dijalankan terhadap destinasi uji sementara (id 31) oleh akun wisatawan uji, agar rating destinasi asli tidak berubah. Setelah mutation, `GET /destinasi/31/ulasan` mengembalikan ulasan tersebut dan `ratingRata` destinasi berubah dari 0 menjadi 5. Destinasi uji kemudian dihapus oleh admin, dan ulasannya ikut terhapus melalui relasi `onDelete: Cascade`. Log verifikasi tersimpan di `docs/tugas-3/graphql-evidence.txt`.
 
 # 7. Kesimpulan
 
