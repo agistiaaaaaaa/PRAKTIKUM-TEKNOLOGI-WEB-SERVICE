@@ -352,7 +352,7 @@ Laporan Tugas 1–6 ditulis dalam Markdown di `docs/tugas-*/` lalu dibuat menjad
 npm run docs:pdf
 ```
 
-Sampul mengikuti format laporan praktikum STMIK Lombok (logo di `docs/assets/`). Nama dan NIM pada sampul dibaca dari `docs/identitas.json`; selama kosong, sampul menampilkan `[NAMA MAHASISWA]` dan `[NIM]`.
+Sampul mengikuti format laporan praktikum STMIK Lombok (logo di `docs/assets/`). Nama dan NIM pada sampul dibaca dari `docs/identitas.json`.
 
 ## Verification
 

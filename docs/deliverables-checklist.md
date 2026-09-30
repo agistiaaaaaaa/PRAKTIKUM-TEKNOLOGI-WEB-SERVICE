@@ -5,7 +5,7 @@ Dicentang hanya bila luaran sudah ada **dan** sudah diperiksa. Bukti per butir a
 ## Sampul Tugas 1–4
 
 - [x] Format sampul laporan praktikum STMIK Lombok, sama untuk semua tugas
-- [ ] Identitas mahasiswa — isi `docs/identitas.json` (nama, nim), lalu `npm run docs:pdf`
+- [x] Identitas mahasiswa — Baiq Agestia Cahya Ilami, NIM TI21240005
 
 ## TUGAS 1 — Analisis Arsitektur
 

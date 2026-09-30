@@ -22,7 +22,7 @@ Luaran modul: laporan PDF + diagram arsitektur (draw.io).
 | 1 | Diagram akses aplikasi mobile & web admin | PASS | `arsitektur-wisataku.drawio` (2 halaman), `arsitektur-wisataku.png`, `arsitektur-monolitik.png` |
 | 1 | Laporan PDF | PASS | `docs/tugas-1/laporan-tugas-1.pdf` |
 | 1 | Sampul format laporan praktikum STMIK Lombok | PASS | logo dari dokumen acuan (tidak diubah), tata letak sama untuk Tugas 1–6 |
-| 1–4 | Identitas mahasiswa di sampul | PENDING | `docs/identitas.json` masih kosong; sampul menampilkan [NAMA MAHASISWA] dan [NIM] |
+| 1–4 | Identitas mahasiswa di sampul | PASS | Baiq Agestia Cahya Ilami, NIM TI21240005 (`docs/identitas.json`) |
 
 ## Tugas 2 — Desain Endpoint & Dokumentasi API
 
