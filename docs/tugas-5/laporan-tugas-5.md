@@ -1,6 +1,7 @@
 ---
-title: "Tugas 5 — Integrasi & Deployment Web Service WisataKu"
-subtitle: "Praktikum Teknologi Web Service — NestJS, Prisma & MariaDB"
+tugas: 5
+judul: "INTEGRASI DAN DEPLOYMENT WEB SERVICE"
+subjudul: "STUDI KASUS APLIKASI WISATAKU"
 ---
 
 # 1. Ruang Lingkup

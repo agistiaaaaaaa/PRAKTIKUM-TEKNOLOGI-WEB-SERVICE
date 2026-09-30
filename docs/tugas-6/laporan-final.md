@@ -1,6 +1,7 @@
 ---
-title: "Dokumentasi Teknis WisataKu API"
-subtitle: "Tugas 6 — Proyek Akhir Web Service Terintegrasi · Praktikum Teknologi Web Service (NestJS, Prisma & MariaDB)"
+tugas: 6
+judul: "PROYEK AKHIR WEB SERVICE TERINTEGRASI|DOKUMENTASI TEKNIS WISATAKU API"
+subjudul: "STUDI KASUS APLIKASI WISATAKU"
 ---
 
 # Ringkasan Status

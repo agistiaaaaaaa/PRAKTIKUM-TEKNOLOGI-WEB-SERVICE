@@ -1,6 +1,7 @@
 ---
-title: "Tugas 1 — Analisis Arsitektur Web Service WisataKu"
-subtitle: "Praktikum Teknologi Web Service — NestJS, Prisma & MariaDB"
+tugas: 1
+judul: "ANALISIS ARSITEKTUR WEB SERVICE"
+subjudul: "STUDI KASUS APLIKASI WISATAKU"
 ---
 
 # 1. Pendahuluan

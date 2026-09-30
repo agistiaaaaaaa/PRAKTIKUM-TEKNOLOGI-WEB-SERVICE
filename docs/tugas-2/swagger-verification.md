@@ -50,7 +50,7 @@ POST    /reservasi                  201,400,401,403,404    [bearer]
 
 Screenshot tidak dapat diambil dari lingkungan terminal yang dipakai untuk menyusun dokumen ini, dan tidak dibuat tiruan.
 
-**ACTION REQUIRED** — jalankan aplikasi (`npm run start:api` atau gateway), buka `http://localhost:3000/api/docs`, lalu ambil screenshot berikut dan simpan di `docs/tugas-2/screenshots/`:
+**ACTION REQUIRED — SCREENSHOT SWAGGER**: jalankan aplikasi (`npm run start:api` atau gateway), buka `http://localhost:3000/api/docs`, lalu ambil screenshot berikut dan simpan di `docs/tugas-2/screenshots/`:
 
 - [SCREENSHOT REQUIRED: Swagger UI halaman utama, seluruh tag terlihat]
 - [SCREENSHOT REQUIRED: Skema `CreateDestinasiDto` pada `POST /destinasi`]

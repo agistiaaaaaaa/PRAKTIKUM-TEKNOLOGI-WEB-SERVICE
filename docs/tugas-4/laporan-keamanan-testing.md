@@ -1,6 +1,7 @@
 ---
-title: "Tugas 4 — Keamanan dan Pengujian API WisataKu"
-subtitle: "Praktikum Teknologi Web Service — NestJS, Prisma & MariaDB"
+tugas: 4
+judul: "KEAMANAN DAN PENGUJIAN API"
+subjudul: "STUDI KASUS APLIKASI WISATAKU"
 ---
 
 # 1. Ruang Lingkup
@@ -110,7 +111,7 @@ Output lengkap: `test-results/unit-test.txt`.
 
 E2E test menjalankan aplikasi NestJS sungguhan terhadap MariaDB dari `DATABASE_URL`. Data uji (user dengan prefix email `e2e-` dan destinasi uji) dibuat sendiri oleh test dan dihapus setelah selesai, sehingga test tidak bergantung pada data seed dan tidak meninggalkan sisa data.
 
-Perintah: `npm run test:e2e`. **Hasil: 2 suite, 41 test, semua lulus.**
+Perintah: `npm run test:e2e`. **Hasil: 41/41 PASS pada run pengujian sebelumnya** (2 suite, 30 September 2026, MariaDB 12.1 lokal). E2E belum dijalankan ulang setelah dokumentasi difinalisasi karena database lokal sedang tidak aktif.
 
 ## 5.1 Monolit — `test/destinasi.e2e-spec.ts` (30 test)
 
@@ -144,15 +145,15 @@ k6 run load-test.js
 k6 run -e BASE_URL=http://<host>:3000 load-test.js
 ```
 
-**Status: BLOCKED.** k6 belum terpasang di mesin pengembangan, sehingga load test belum pernah dijalankan. Laporan ini sengaja tidak memuat angka response time, throughput, request rate, persentil, maupun error rate. Tabel berikut diisi setelah k6 dijalankan, dengan output asli disimpan di `test-results/k6-*.txt`.
+**Status: PENDING — k6 runtime execution.** k6 belum terpasang di mesin pengembangan, sehingga load test belum pernah dijalankan. Laporan ini sengaja tidak memuat angka response time, throughput, request rate, persentil, maupun error rate. Tabel berikut diisi setelah k6 dijalankan, dengan output asli disimpan di `test-results/k6-*.txt`.
 
 | Metrik | Monolit | Gateway |
 |---|---|---|
-| `http_reqs` (total, per detik) | belum dijalankan | belum dijalankan |
-| `http_req_duration` avg | belum dijalankan | belum dijalankan |
-| `http_req_duration` p(95) | belum dijalankan | belum dijalankan |
-| `http_req_failed` | belum dijalankan | belum dijalankan |
-| Threshold terpenuhi | belum dijalankan | belum dijalankan |
+| `http_reqs` (total, per detik) | PENDING | PENDING |
+| `http_req_duration` avg | PENDING | PENDING |
+| `http_req_duration` p(95) | PENDING | PENDING |
+| `http_req_failed` | PENDING | PENDING |
+| Threshold terpenuhi | PENDING | PENDING |
 
 # 7. Masalah yang Ditemukan Saat Pengujian
 
@@ -164,5 +165,5 @@ k6 run -e BASE_URL=http://<host>:3000 load-test.js
 
 1. Password disimpan sebagai hash bcrypt; login menghasilkan JWT HS256 berisi `sub` dan `role` dengan masa berlaku terbatas.
 2. Endpoint sensitif dilindungi `JwtAuthGuard`/`GqlAuthGuard` dan `RolesGuard`: tanpa token atau token tidak valid/kedaluwarsa → 401, role salah → 403.
-3. Unit test 32/32 dan e2e test 41/41 lulus. Output asli disimpan di `test-results/`.
+3. Unit test 32/32 PASS. E2E test 41/41 PASS pada run pengujian sebelumnya. Output asli keduanya disimpan di `test-results/`.
 4. Load test k6 sudah disiapkan tetapi belum dijalankan karena k6 belum terpasang. Belum ada hasil performa yang dapat dilaporkan.

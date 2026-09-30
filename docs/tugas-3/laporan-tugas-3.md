@@ -1,6 +1,7 @@
 ---
-title: "Tugas 3 — Implementasi RESTful & GraphQL API WisataKu"
-subtitle: "Praktikum Teknologi Web Service — NestJS, Prisma & MariaDB"
+tugas: 3
+judul: "IMPLEMENTASI RESTFUL DAN GRAPHQL API"
+subjudul: "STUDI KASUS APLIKASI WISATAKU"
 ---
 
 # 1. Ruang Lingkup
@@ -170,22 +171,36 @@ Pengujian dijalankan otomatis, bukan hanya manual:
 
 | Bukti | File | Hasil |
 |---|---|---|
-| E2E REST & GraphQL monolit | `test/destinasi.e2e-spec.ts`, output di `docs/tugas-4/test-results/e2e-test.txt` | Lulus |
+| E2E REST & GraphQL monolit | `test/destinasi.e2e-spec.ts`, output di `docs/tugas-4/test-results/e2e-test.txt` | Lulus pada run pengujian 30 September 2026 (bagian dari 41/41) |
 | Smoke test HTTP ke server berjalan | Dicatat di `docs/recovery-status.md` | Monolit 32/32, gateway 37/37 |
-| Unit test service domain | `libs/domain/src/**/*.spec.ts` | Lulus |
+| Unit test service domain | `libs/domain/src/**/*.spec.ts` | Lulus (bagian dari 32/32) |
 
 Skenario GraphQL yang diuji e2e: `tambahUlasan` tanpa token → `UNAUTHENTICATED`; dua ulasan (rating 5 dan 4) oleh wisatawan lalu `destinasi(id)` mengembalikan `ratingRata` 4.5, 2 ulasan, dan daftar fasilitas (kosong untuk destinasi uji); rating 9 → `BAD_REQUEST`; `destinasi(id: 999999)` → `NOT_FOUND`; `cariDestinasi(kategori: "Pantai")` hanya berisi kategori Pantai.
 
-## Screenshot
+## 6.1 Bukti Uji REST dengan Postman
 
-Screenshot tidak dapat diambil dari lingkungan terminal yang dipakai untuk menyusun laporan ini dan tidak dibuat tiruan.
+Screenshot belum tersedia. Bagian ini sengaja tidak diisi gambar tiruan.
 
-**ACTION REQUIRED** — ambil dari aplikasi yang berjalan dan simpan di `docs/tugas-3/screenshots/`:
+> **ACTION REQUIRED — SCREENSHOT POSTMAN**
+>
+> Jalankan `npm run start:api`, lalu ambil screenshot Postman untuk request berikut dan simpan di `docs/tugas-3/screenshots/`:
+>
+> 1. `GET http://localhost:3000/destinasi?kategori=Pantai` → 200
+> 2. `POST http://localhost:3000/auth/login` (akun admin) → 200 dengan `access_token`
+> 3. `POST http://localhost:3000/destinasi` dengan header `Authorization: Bearer <token admin>` → 201
+> 4. `GET http://localhost:3000/destinasi/999999` → 404
 
-- [SCREENSHOT REQUIRED: Swagger REST API — `GET /destinasi` "Try it out" dengan respons 200]
-- [SCREENSHOT REQUIRED: Postman/Swagger — `POST /destinasi` sebagai admin → 201, dan `GET /destinasi/999999` → 404]
-- [SCREENSHOT REQUIRED: GraphQL Apollo Sandbox — query `destinasi(id)` dengan `ulasan` dan `fasilitas`]
-- [SCREENSHOT REQUIRED: GraphQL Apollo Sandbox — mutation `tambahUlasan` dengan header Authorization]
+## 6.2 Bukti Uji GraphQL dengan Apollo Sandbox
+
+Screenshot belum tersedia. Bagian ini sengaja tidak diisi gambar tiruan.
+
+> **ACTION REQUIRED — SCREENSHOT APOLLO SANDBOX**
+>
+> Buka `http://localhost:3000/graphql` di browser, lalu ambil screenshot berikut dan simpan di `docs/tugas-3/screenshots/`:
+>
+> 1. Query `destinasi(id: 1)` dengan field `nama`, `ratingRata`, `ulasan`, `fasilitas`
+> 2. Query `cariDestinasi(kategori: "Pantai")`
+> 3. Mutation `tambahUlasan` dengan header `Authorization: Bearer <token wisatawan>`
 
 # 7. Kesimpulan
 

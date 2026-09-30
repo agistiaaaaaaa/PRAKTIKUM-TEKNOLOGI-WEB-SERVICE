@@ -344,6 +344,16 @@ Kolom database tetap `hargaTiket`; v2 memetakannya menjadi `hargaDewasa` dan men
 
 **Nama tabel huruf kecil pada migrasi.** Dua migrasi berisi `ALTER TABLE \`ulasan\`` dan `\`destinasi\`` karena dibuat di MariaDB Windows yang tidak membedakan huruf besar/kecil. Container MariaDB di `docker-compose.yml` dijalankan dengan `--lower-case-table-names=1` agar migrasi yang sama berjalan di Linux. Migrasi yang sudah diterapkan tidak diubah.
 
+## Laporan PDF
+
+Laporan Tugas 1–6 ditulis dalam Markdown di `docs/tugas-*/` lalu dibuat menjadi PDF dengan Chrome/Edge headless:
+
+```bash
+npm run docs:pdf
+```
+
+Sampul mengikuti format laporan praktikum STMIK Lombok (logo di `docs/assets/`). Nama dan NIM pada sampul dibaca dari `docs/identitas.json`; selama kosong, sampul menampilkan `[NAMA MAHASISWA]` dan `[NIM]`.
+
 ## Verification
 
 Hasil pemeriksaan terakhir di mesin pengembangan (Windows 11, Node.js 24.15, MariaDB 12.1):

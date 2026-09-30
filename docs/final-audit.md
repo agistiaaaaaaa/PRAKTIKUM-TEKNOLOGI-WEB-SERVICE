@@ -20,7 +20,9 @@ Luaran modul: laporan PDF + diagram arsitektur (draw.io).
 | 1 | Client-server, stateless, layered system | PASS | laporan bagian 5 |
 | 1 | Monolitik vs microservices, alasan monolitik modular (latihan 1.4 langkah 6) | PASS | laporan bagian 6 |
 | 1 | Diagram akses aplikasi mobile & web admin | PASS | `arsitektur-wisataku.drawio` (2 halaman), `arsitektur-wisataku.png`, `arsitektur-monolitik.png` |
-| 1 | Laporan PDF | PASS | `docs/tugas-1/laporan-tugas-1.pdf`; nama/NIM sampul masih kosong sampai `docs/identitas.json` diisi |
+| 1 | Laporan PDF | PASS | `docs/tugas-1/laporan-tugas-1.pdf` |
+| 1 | Sampul format laporan praktikum STMIK Lombok | PASS | logo dari dokumen acuan (tidak diubah), tata letak sama untuk Tugas 1–6 |
+| 1–4 | Identitas mahasiswa di sampul | PENDING | `docs/identitas.json` masih kosong; sampul menampilkan [NAMA MAHASISWA] dan [NIM] |
 
 ## Tugas 2 — Desain Endpoint & Dokumentasi API
 
@@ -33,7 +35,8 @@ Luaran modul: file OpenAPI (YAML/JSON) + screenshot Swagger UI.
 | 2 | Swagger UI `/api/docs` dengan bearer auth | PASS | HTTP 200 di monolit & gateway (`swagger-verification.md`) |
 | 2 | OpenAPI JSON | PASS | `docs/tugas-2/openapi.json`, diekspor dari kode |
 | 2 | OpenAPI YAML | PASS | `docs/tugas-2/openapi.yaml` |
-| 2 | Screenshot Swagger UI | PENDING | harus diambil manual; tidak dibuat tiruan |
+| 2 | Laporan PDF | PASS | `docs/tugas-2/laporan-tugas-2.pdf` |
+| 2 | Screenshot Swagger UI | PENDING | ACTION REQUIRED — SCREENSHOT SWAGGER; tidak dibuat tiruan |
 
 ## Tugas 3 — Implementasi RESTful & GraphQL API
 
@@ -48,7 +51,8 @@ Luaran modul: source code (GitHub) + screenshot uji API (Postman/Apollo Sandbox)
 | 3 | Mutation `tambahUlasan` | PASS | e2e: `ratingRata` diperbarui menjadi 4.5 |
 | 3 | Perbandingan jumlah request REST vs GraphQL | PASS | `docs/tugas-3/laporan-tugas-3.md` bagian 5 |
 | 3 | Bukti uji API (log) | PASS | `docs/tugas-4/test-results/e2e-test.txt`, smoke test di `docs/recovery-status.md` |
-| 3 | Screenshot Postman / Apollo Sandbox | PENDING | harus diambil manual |
+| 3 | Screenshot Postman | PENDING | ACTION REQUIRED — SCREENSHOT POSTMAN (laporan bagian 6.1) |
+| 3 | Screenshot Apollo Sandbox | PENDING | ACTION REQUIRED — SCREENSHOT APOLLO SANDBOX (laporan bagian 6.2) |
 | 3 | Source code di GitHub | BLOCKED | Git lokal ada; URL remote belum diberikan |
 | 3 | Laporan PDF | PASS | `docs/tugas-3/laporan-tugas-3.pdf` |
 
@@ -63,8 +67,8 @@ Luaran modul: source code keamanan API + laporan pengujian PDF.
 | 4 | `@Roles` + RolesGuard (admin, wisatawan) | PASS | unit test RolesGuard; e2e 403 |
 | 4 | Guard pada mutation GraphQL | PASS | e2e `UNAUTHENTICATED` tanpa token |
 | 4 | Unit test (`npm run test`) | PASS | 32/32, `test-results/unit-test.txt` |
-| 4 | E2E test (`npm run test:e2e`) | PASS | 41/41, `test-results/e2e-test.txt` |
-| 4 | Load test k6 | BLOCKED | `load-test.js` siap; k6 belum terpasang, belum ada hasil |
+| 4 | E2E test (`npm run test:e2e`) | PASS | 41/41 PASS pada run pengujian sebelumnya (30 September 2026), `test-results/e2e-test.txt`; belum dijalankan ulang karena database lokal tidak aktif |
+| 4 | Load test k6 | PENDING | PENDING — k6 runtime execution; `load-test.js` siap, k6 belum terpasang, tidak ada angka performa |
 | 4 | Laporan pengujian PDF | PASS | `docs/tugas-4/laporan-keamanan-testing.pdf` (bagian k6 dinyatakan belum dijalankan) |
 
 ## Tugas 5 — Integrasi & Deployment Web Service
@@ -112,9 +116,9 @@ Luaran modul: source code (GitHub) + API ter-deploy + dokumentasi teknis PDF + s
 | Build 4 aplikasi | PASS |
 | Typecheck | PASS |
 | Unit test | PASS 32/32 |
-| E2E test | PASS 41/41 (dijalankan sebelum MariaDB lokal dihentikan sistem karena memori rendah) |
+| E2E test | PASS 41/41 pada run pengujian sebelumnya (belum dijalankan ulang; MariaDB lokal dihentikan sistem karena memori rendah) |
 | Prisma | PASS |
 | API smoke test | PASS |
 | Docker runtime | BLOCKED |
-| k6 | BLOCKED |
+| k6 | PENDING — k6 runtime execution |
 | Deployment | BLOCKED |

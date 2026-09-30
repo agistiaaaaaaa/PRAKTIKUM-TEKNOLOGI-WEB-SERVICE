@@ -23,3 +23,6 @@ tmp/
 .DS_Store
 Thumbs.db
 
+
+# dokumen acuan pribadi (berisi identitas orang lain), bukan bagian repository
+docs/*.docx
